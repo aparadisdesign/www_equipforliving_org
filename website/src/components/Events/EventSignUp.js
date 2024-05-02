@@ -11,6 +11,9 @@ export default function EventSignUp() {
 const [isVolunteer, setIsVolunteer] = useState(undefined)
 const [isParentGuardian, setIsParentGuardian] = useState(undefined)
 
+const buttonClasses = 'rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-white shadow-sm cursor-not-allowed opacity-50'
+
   return (
     <form className="mx-auto max-w-7xl px-6 lg:px-8 py-6">
       {formPage === 1 && (
@@ -41,10 +44,11 @@ const [isParentGuardian, setIsParentGuardian] = useState(undefined)
         <div className="submit mt-6 flex items-center justify-end gap-x-6">
         <button
         type="submit"
-        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className={isVolunteer === undefined ? disabedButtonClasses : buttonClasses}
         onClick={()=>{
           setFormPage(2)
         }}
+        disabled={isVolunteer === undefined}
         >
           Next 
         </button>
