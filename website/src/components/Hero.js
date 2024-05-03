@@ -97,13 +97,13 @@ export default function Hero({navigation}) {
             }}
           />
         </div>
-        <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
+        <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56 px-6 lg:px-8">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
             <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
-            Equip For Surfing is just round the corner!{' '}
-              <a href="#" className="font-semibold text-white">
+            Help Support Equip For Living{' '}
+              <a href="https://www.paypal.com/donate/?cmd=_donations&business=equipforliving@gmail.com&item_name=Equip%20For%20Living%20Foundation&currency_code=USD" className="font-semibold text-white pl-1">
                 <span className="absolute inset-0" aria-hidden="true" />
-                Sign Up <span aria-hidden="true">&rarr;</span>
+                Donate <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
           </div>
@@ -114,7 +114,7 @@ export default function Hero({navigation}) {
             <p className="mt-6 text-lg leading-8 text-gray-300">
               Through our Support Services, we have the potential to make a real and positive change in the community. This is one of our key areas of focus here at Equip For Living Foundation, and a source of much success for our Non-Profit Organization. Get in touch with us today and see how you can lend a helping hand with this program.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            {/* <div className="mt-10 flex items-center justify-center gap-x-6">
               <a
                 href="#"
                 className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
@@ -124,7 +124,7 @@ export default function Hero({navigation}) {
               <a href="#" className="text-sm font-semibold leading-6 text-white">
                 Learn more <span aria-hidden="true">→</span>
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
         <div
