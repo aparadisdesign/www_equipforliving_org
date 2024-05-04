@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.idea/
+api/.venv/
+api/.ftpquota
+api/tmp
+api/db.sqlite3
+api/.env
