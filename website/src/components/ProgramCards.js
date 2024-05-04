@@ -50,11 +50,13 @@ export default function ProgramCards() {
                 </dt>
                 <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
                   <p className="flex-auto">{feature.description}</p>
+
                   {/* <p className="mt-6">
                     <a href={feature.href} className="text-sm font-semibold leading-6 text-green">
+
                     {feature.button} <span aria-hidden="true">→</span>
                     </a>
-                  </p> */}
+                  </p>
                 </dd>
               </div>
             ))}

@@ -1,6 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navigation from "./components/Navigation";
-import ProgramCards from "./components/ProgramCards";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Programs from "./pages/Programs";
@@ -14,7 +12,7 @@ const navigation = [
   { name: 'Programs', href: '/programs' },
   { name: 'Volunteer', href: '/volunteer'},
   { name: 'Donate', href: 'https://www.paypal.com/donate/?cmd=_donations&business=equipforliving@gmail.com&item_name=Equip%20For%20Living%20Foundation&currency_code=USD' },
-  // { name: 'Contact Us', href: '#' },
+  { name: 'Contact Us', href: '#' },
 ]
 
 function App() {

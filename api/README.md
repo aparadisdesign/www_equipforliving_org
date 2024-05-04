@@ -1,0 +1,1 @@
+source /home/mf717wrc0gbq/virtualenv/api/3.11/bin/activate && cd /home/mf717wrc0gbq/api

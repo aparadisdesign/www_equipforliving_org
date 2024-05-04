@@ -24,3 +24,5 @@ yarn-error.log*
 
 public/output.css
 website/output.css
+
+.idea/
