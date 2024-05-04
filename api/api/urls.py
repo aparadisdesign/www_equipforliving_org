@@ -15,8 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from equip_for_living.views import handle_form_data
+from equip_for_living.views import RegistrationCreateAPIView
 
 urlpatterns = [
-    path('api/', handle_form_data, name='hello_world'),
+    path('api/', RegistrationCreateAPIView.as_view(), name='hello_world'),
 ]
