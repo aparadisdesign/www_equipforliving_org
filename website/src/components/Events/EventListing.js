@@ -1,5 +1,6 @@
 import EventCard from './EventCard'
 import eventImage from '../../images/adaptive-surfing-135.webp'
+import TaraAndAAron from '../../images/tara-aaron.webp'
 
 const posts = [
     {
@@ -7,18 +8,18 @@ const posts = [
       title: 'Equip For Surfing',
       href: '/event-sign-up',
       description:
-        'Equip For Living will be offering adaptive surfing  at Long Sands Beach, in York Maine. We will have trained instructors, wet suits, surf boards all ready to assist in this FREE Equip for Surfing event!',
+        'Equip For Living will be offering adaptive surfing at Long Sands Beach, in York Maine. We will have trained instructors, wet suits, surf boards all ready to assist in this FREE Equip for Surfing event!',
       imageUrl: {eventImage},
-      date: 'Aug 17, 2023',
-      datetime: '2023-08-17',
+      date: 'August 8th, 2024',
+      datetime: '2024-08-08',
+      time: '4:30PM - 7:30PM',
       category: { title: 'Water Sports', href: '#' },
       address: 'Long Sands Beach, 171-175 Long Beach Ave, York, ME 03909, USA',
       host: {
         name: 'Equip For Living',
-        role: 'Co-Founder / CTO',
+        role: 'Tara & Aaron',
         href: '#',
-        imageUrl:
-          'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        imageUrl: TaraAndAAron,
       },
     },
     {
@@ -26,18 +27,18 @@ const posts = [
         title: 'Equip For Surfing',
         href: '/event-sign-up',
         description:
-          'Equip For Living will be offering adaptive surfing  at Long Sands Beach, in York Maine. We will have trained instructors, wet suits, surf boards all ready to assist in this FREE Equip for Surfing event!',
+          'Equip For Living will be offering adaptive surfing at Long Sands Beach, in York Maine. We will have trained instructors, wet suits, surf boards all ready to assist in this FREE Equip for Surfing event!',
           imageUrl: {eventImage},
-        date: 'Mar 16, 2020',
-        datetime: '2020-03-16',
+        date: 'July 11th, 2024',
+        datetime: '2024-11-07',
+        time: '4:30PM - 7:30PM',
         category: { title: 'Water Sports', href: '#' },
         address: 'Long Sands Beach, 171-175 Long Beach Ave, York, ME 03909, USA',
         host: {
           name: 'Equip For Living',
-          role: 'Co-Founder / CTO',
+          role: 'Tara & Aaron',
           href: '#',
-          imageUrl:
-            'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+          imageUrl: TaraAndAAron,
         },
       },
       {
@@ -47,16 +48,16 @@ const posts = [
         description:
           'Equip For Living will be offering adaptive surfing  at Long Sands Beach, in York Maine. We will have trained instructors, wet suits, surf boards all ready to assist in this FREE Equip for Surfing event!',
           imageUrl: {eventImage},
-        date: 'Mar 16, 2020',
-        datetime: '2020-03-16',
+        date: 'June 20th, 2024',
+        datetime: '2024-06-20',
+        time: '4:30PM - 7:30PM',
         category: { title: 'Water Sports', href: '#' },
         address: 'Long Sands Beach, 171-175 Long Beach Ave, York, ME 03909, USA',
         host: {
           name: 'Equip For Living',
-          role: 'Co-Founder / CTO',
+          role: 'Tara & Aaron',
           href: '#',
-          imageUrl:
-            'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+          imageUrl: TaraAndAAron,
         },
       },
     // More posts...
@@ -70,9 +71,6 @@ const posts = [
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:max-w-4xl">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Upcoming Events</h2>
-            {/* <p className="mt-2 text-lg leading-8 text-gray-600">
-              Learn how to grow your business with our expert advice.
-            </p> */}
             <div className="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
               {posts.map((post) => (
                 <EventCard event={post} />

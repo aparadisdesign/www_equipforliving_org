@@ -32,7 +32,7 @@ export default function ProgramCards() {
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600">WHAT WE DO</h2>
+          <h2 className="text-base font-semibold leading-7 text-green">WHAT WE DO</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Our mission is to support adults with special needs and improve their quality of life by:
           </p>
@@ -45,13 +45,13 @@ export default function ProgramCards() {
             {features.map((feature) => (
               <div key={feature.name} className="flex flex-col">
                 <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <feature.icon className="h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                  <feature.icon className="h-5 w-5 flex-none text-green" aria-hidden="true" />
                   {feature.name}
                 </dt>
                 <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
                   <p className="flex-auto">{feature.description}</p>
                   {/* <p className="mt-6">
-                    <a href={feature.href} className="text-sm font-semibold leading-6 text-indigo-600">
+                    <a href={feature.href} className="text-sm font-semibold leading-6 text-green">
                     {feature.button} <span aria-hidden="true">→</span>
                     </a>
                   </p> */}
