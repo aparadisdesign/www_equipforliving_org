@@ -7,7 +7,7 @@ const EventRegistration = ({navigation}) => {
     return (
         <>
         <Navigation navigation={navigation} />
-        <IntroSection />
+        <IntroSection title={"We are so pleased you'd like to volunteer!"} intro={" Right now, we only have one event we require volunteers for 'Equip for Surfing'. Please fill out the registration form below so we can place you in your best fit role. We can't wait to see you on the waves!"}/>
         <EventSignUp />
         <Footer navigation={navigation}/>
         </>

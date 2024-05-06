@@ -1,44 +1,47 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-
+import axios from 'axios';
 
 export default function EventSignUp() {
 const [formPage, setFormPage] = useState(1)
 const [isVolunteer, setIsVolunteer] = useState(undefined)
 const [isParentGuardian, setIsParentGuardian] = useState(undefined)
 
-const {register, handleSubmit, trigger} = useForm();
+
+const {register, handleSubmit} = useForm();
 
 const buttonClasses = 'rounded-md bg-purple px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple'
 const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-white shadow-sm cursor-not-allowed opacity-50'
 
   return (
-    <form className="mx-auto max-w-7xl px-6 lg:px-8 py-6" onSubmit={handleSubmit((data) => {
+    <form className="mx-auto max-w-7xl px-6 lg:px-8 py-6" onSubmit={handleSubmit(async (data) => {
       if(formPage === 1){
         setFormPage(2);
       }
       if(formPage === 2 ){
         // Assuming data contains your form data
-        const response = fetch('https://www.equipforliving.org/api/', {
-          method: 'POST',
+        axios.post('https://www.equipforliving.org/api/', data, {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+        })
+        .then(response => {
+          if (response.status === 201) {
+       
+           setFormPage(3);
+          } else {
+            console.error('Failed to send form data.');
+          }
+        })
+        .catch(error => {
+          console.error('Error sending form data:', error);
         });
-
-        if (response.ok) {
-          console.log('Form data sent successfully!');
-        } else {
-          console.error('Failed to send form data.');
-        }
       }
-      console.log(JSON.stringify(data))
       })}>
       {formPage === 1 && (
       <div className="border-b border-gray-900/10 pb-12 mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
            <fieldset className="sm:col-span-3">
-            <legend className="text-base font-semibold leading-7 text-gray-900">Choose The Date(s) You Would Like To Attend</legend>
+            <legend className="text-base font-semibold leading-7 text-gray-900">Choose The Date(s) You Would Like To Attend<span className="text-red-500">*</span></legend> 
             <p className="mt-1 text-sm leading-6 text-gray-600">You may choose multiple dates</p>
             <div className="mt-10 sm:col-span-3">
               <div className="relative flex gap-x-3">
@@ -47,7 +50,8 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     id="date-1"
                     value="2024-08-08"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-purple"
+                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
+                    {...register("attendance_dates")}
                   />
                 </div>
                 <div className="text-sm leading-6">
@@ -62,9 +66,10 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                 <div className="flex h-6 items-center">
                   <input
                     id="date-2"
-                    value="2024-11-07"
+                    value="2024-07-11"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-purple"
+                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
+                    {...register("attendance_dates")}
                   />
                 </div>
                 <div className="text-sm leading-6">
@@ -80,7 +85,8 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     id="date-3"
                     value="2024-06-20"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-purple"
+                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
+                    {...register("attendance_dates")}
                   />
                 </div>
                 <div className="text-sm leading-6">
@@ -93,14 +99,14 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
             </div>
           </fieldset>
           <fieldset className="sm:col-span-3">
-              <legend className="text-base font-semibold leading-7 text-gray-900">Registration Type</legend>
+              <legend className="text-base font-semibold leading-7 text-gray-900">Registration Type<span className="text-red-500">*</span></legend>
               <p className="mt-1 text-sm leading-6 text-gray-600">Are you attening as a volunteer or a surfer?</p>
               <div className="mt-10 space-y-6">
                 <div className="flex items-center gap-x-3">
                   <input
                     id="volunteer"
                     type="radio"
-                    className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     onClick={()=>{setIsVolunteer(true)}}
                     value="V"
                     {...register("registration_type")}
@@ -113,7 +119,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   <input
                     id="surfer"
                     type="radio"
-                    className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     value="S"
                     onClick={()=>{setIsVolunteer(false)}}
                     {...register("registration_type")}
@@ -127,532 +133,439 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
       </div>
       )}
 
-      {(isVolunteer !== undefined && formPage === 1) ? (
-        isVolunteer ? (
-          <>
-            <div className="border-b border-gray-900/10 pb-12">
-              <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <legend className="text-base font-semibold leading-7 text-gray-900">Who Are You?</legend>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                    First name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="first-name"
-                      autoComplete="given-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("first_name", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
 
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                    Last name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="last-name"
-                      autoComplete="family-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("last_name", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                    Email
-                  </label>
-                  <div className="relative mt-2 rounded-md shadow-sm">
-                    <input
-                      type="email"
-                      id="email"
-                      className="block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset sm:text-sm sm:leading-6"
-                      placeholder="example@gmail.com"
-                      {...register("email", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label htmlFor="phone-number" className="block text-sm font-medium leading-6 text-gray-900">
-                    Phone Number
-                  </label>
-                  <div className="relative mt-2 rounded-md shadow-sm">
-                    <input
-                      type="text"
-                      id="phone-number"
-                      className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      placeholder="+1 (555) 987-6543"
-                      {...register("phone_number")}
-                    />
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <div className="border-b border-gray-900/10 pb-12">
-              <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <legend className="text-base font-semibold leading-7 text-gray-900">Emergency Contact</legend>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="emergency-contact-relationship" className="block text-sm font-medium leading-6 text-gray-900">Relationship To Participant</label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="emergency-contact-relationship"
-                      autoComplete="emergency-contact-relationship"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("emergency_contact_relationship", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="emergency-contact-name" className="block text-sm font-medium leading-6 text-gray-900">
-                    Name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="emergency-contact-name"
-                      autoComplete="emergency-contact-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("emergency_contact_name", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="emergency-contact-phone" className="block text-sm font-medium leading-6 text-gray-900">
-                    Phone Number
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="emergency-contact-phone"
-                      autoComplete="emergency-contact-phone"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("emergency_contact_phone", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <div className="border-b border-gray-900/10 pb-12">
-              <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <legend className="text-base font-semibold leading-7 text-gray-900">What is your preference for volunteering (In/Out of water)?</legend>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="in-water" className="block text-sm font-medium leading-6 text-gray-900">In Water</label>
-                  <div className="mt-2">
-                    <input
-                      type="radio"
-                      id="in-water"
-                      autoComplete="in-water"
-                      value="W"
-                      className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
-                      {...register("volunteer_preference")}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="out-of-water" className="block text-sm font-medium leading-6 text-gray-900">Out of Water</label>
-                  <div className="mt-2">
-                    <input
-                      type="radio"
-                      id="out-of-water"
-                      autoComplete="out-of-water"
-                      value="O"
-                      className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
-                      {...register("volunteer_preference")}
-                    />
-                  </div>
-                </div>
-                <div className="col-span-full">
-                  <label htmlFor="comment" className="block text-sm font-medium leading-5 text-gray-900">
-                    Do you have any background to share? If so please Comment:
-                  </label>
-                  <div className="mt-2">
-                    <textarea
-                      rows={4}
-                      id="comment"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("comment")}
-                    />
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            </>
-        ) : (
-          // Surfer Form
-          <>
-            {/* Who Are You? */}
-            <div className="border-b border-gray-900/10 pb-12">
-              <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <legend className="text-base font-semibold leading-7 text-gray-900">Who Are You?</legend>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                    First name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="first-name"
-                      autoComplete="given-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("first_name", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="last_name" className="block text-sm font-medium leading-6 text-gray-900">
-                    Last name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="last-name"
-                      autoComplete="family-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("last_name", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                    Email
-                  </label>
-                  <div className="relative mt-2 rounded-md shadow-sm">
-                    <input
-                      type="email"
-                      id="email"
-                      className="block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
-                      placeholder="you@example.com"
-                      {...register("email", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label htmlFor="phone-number" className="block text-sm font-medium leading-6 text-gray-900">
-                    Phone Number
-                  </label>
-                  <div className="relative mt-2 rounded-md shadow-sm">
-                    <input
-                      type="text"
-                      id="phone-number"
-                      className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      placeholder="+1 (555) 987-6543"
-                      {...register("phone_number")}
-                    />
-                  </div>
-                </div>
-              </fieldset>
+      {formPage === 1 && (
+        // Contact Information Both Surfer and Volunteer
+        <>
+        {/* Who Are You? */}
+        <div className="border-b border-gray-900/10 pb-12">
+          <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <legend className="text-base font-semibold leading-7 text-gray-900">Who Are You?</legend>
+            <div className="mt-10 sm:col-span-3">
+              <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
+                First name<span className="text-red-500">*</span>
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  id="first-name"
+                  autoComplete="given-name"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                  {...register("first_name", {required: "This field is required"})}
+                />
+              </div>
             </div>
 
-            {/* Emergency Contact */}
-            <div className="border-b border-gray-900/10 pb-12">
-              <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <legend className="text-base font-semibold leading-7 text-gray-900">Emergency Contact</legend>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="emergency-contact-relationship" className="block text-sm font-medium leading-6 text-gray-900">Relationship To Participant</label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="emergency-contact-relationship"
-                      autoComplete="emergency-contact-relationship"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("emergency_contact_relationship", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="emergency_contact_name" className="block text-sm font-medium leading-6 text-gray-900">
-                    Name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="emergency-contact-name"
-                      autoComplete="emergency-contact-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("emergency_contact_name", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="emergency_contact_phone" className="block text-sm font-medium leading-6 text-gray-900">
-                    Phone Number
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="emergency-contact-phone"
-                      autoComplete="emergency-contact-phone"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("emergency_contact_phone", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-              </fieldset>
+            <div className="mt-10 sm:col-span-3">
+              <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+                Last name<span className="text-red-500">*</span>
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  id="last-name"
+                  autoComplete="family-name"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                  {...register("last_name", {required: "This field is required"})}
+                />
+              </div>
             </div>
 
-            {/* Is this your first time surfing with Equipped For Surfers? */}
-            <div className="border-b border-gray-900/10 pb-12">
-              <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <legend className="text-base font-semibold leading-7 text-gray-900">Is this your first time surfing with Equipped For Surfers?</legend>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="first-time-surfing" className="block text-sm font-medium leading-6 text-gray-900">Yes</label>
-                  <div className="mt-2">
-                    <input
-                      type="radio"
-                      id="first-time-surfing"
-                      autoComplete="first-time-surfing"
-                      value="true"
-                      className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
-                      {...register("first_time_surfing", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="not-first-time-surfing" className="block text-sm font-medium leading-6 text-gray-900">No</label>
-                  <div className="mt-2">
-                    <input
-                      type="radio"
-                      id="not-first-time-surfing"
-                      autoComplete="not-first-time-surfing"
-                      value="false"
-                      className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
-                      {...register("first_time_surfing", {required: "This field is required"})}
-                    />
-                  </div>
-                </div>
-              </fieldset>
+            <div className="sm:col-span-3">
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                Email<span className="text-red-500">*</span>
+              </label>
+              <div className="relative mt-2 rounded-md shadow-sm">
+                <input
+                  type="email"
+                  id="email"
+                  className="block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset sm:text-sm sm:leading-6"
+                  placeholder="example@gmail.com"
+                  {...register("email", {required: "This field is required"})}
+                />
+              </div>
             </div>
 
-            {/* What is your physical size what are your physical Limitations */}
-            <div className="border-b border-gray-900/10 pb-12 mb-10">
-              <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <legend className="text-base font-semibold leading-7 text-gray-900">Help us understand your needs</legend>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="height" className="block text-sm font-medium leading-6 text-gray-900">
-                    Height
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="height"
-                      autoComplete="height"
-                      placeholder="'0\' 0"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("height")}
-                    />
-                  </div>
-                </div>
-                <div className="mt-10 sm:col-span-3">
-                  <label htmlFor="weight" className="block text-sm font-medium leading-6 text-gray-900">
-                    Weight
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      id="weight"
-                      autoComplete="weight"
-                      placeholder="0 lbs"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("weight")}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-full">
-                  <label htmlFor="comment" className="block text-sm font-medium leading-5 text-gray-900">
-                    Can you please give us some background of your disability so we can pair you with the correct equipment and volunteer.
-                  </label>
-                  <div className="mt-2">
-                    <textarea
-                      rows={4}
-                      id="comment"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                      {...register("weight")}
-                    />
-                  </div>
-                </div>
-              </fieldset>
+            <div className="sm:col-span-3">
+              <label htmlFor="phone-number" className="block text-sm font-medium leading-6 text-gray-900">
+                Phone Number
+              </label>
+              <div className="relative mt-2 rounded-md shadow-sm">
+                <input
+                  type="text"
+                  id="phone-number"
+                  className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                  placeholder="+1 (555) 987-6543"
+                  {...register("phone_number")}
+                />
+              </div>
             </div>
-          </>
-        )
-      ) : (
-        // Render when isVolunteer is undefined
-        <p className='mt-10'>Please Select a Registration Type</p>
+          </fieldset>
+        </div>
+
+        {/* Emergency Contact */}
+        <div className="border-b border-gray-900/10 pb-12">
+          <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <legend className="text-base font-semibold leading-7 text-gray-900">Emergency Contact</legend>
+
+            <div className="mt-10 sm:col-span-3">
+              <label htmlFor="emergency-contact-name" className="block text-sm font-medium leading-6 text-gray-900">
+                Contact's Name<span className="text-red-500">*</span>
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  id="emergency-contact-name"
+                  autoComplete="emergency-contact-name"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                  {...register("emergency_contact_name", {required: "This field is required"})}
+                />
+              </div>
+            </div>
+
+            <div className="mt-10 sm:col-span-3">
+              <label htmlFor="emergency-contact-phone" className="block text-sm font-medium leading-6 text-gray-900">
+                Contact's Phone Number<span className="text-red-500">*</span>
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  id="emergency-contact-phone"
+                  autoComplete="emergency-contact-phone"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                  {...register("emergency_contact_phone", {required: "This field is required"})}
+                />
+              </div>
+            </div>
+
+            <div className="mt-10 sm:col-span-3">
+              <label htmlFor="emergency-contact-relationship" className="block text-sm font-medium leading-6 text-gray-900">Relationship To Participant</label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  id="emergency-contact-relationship"
+                  autoComplete="emergency-contact-relationship"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                  {...register("emergency_contact_relationship", {required: "This field is required"})}
+                />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        </>
+      )}  
+
+
+      {formPage === 1 && isVolunteer !== undefined && isVolunteer && (
+        // Volunteer Spcific Fields
+        <>
+          {/* Volunteer Experience */}
+          <div className="border-b border-gray-900/10 pb-12">
+            <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <legend className="text-base font-semibold leading-7 text-gray-900">What is your preference for volunteering (In/Out of water)?</legend>
+
+              <div className="mt-10 sm:col-span-2 flex items-center gap-x-3 align-middle">
+                  <input
+                    type="radio"
+                    id="in-water"
+                    autoComplete="in-water"
+                    value="W"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("volunteer_preference")}
+                  />
+                <label htmlFor="in-water" className="block text-sm font-medium leading-6 text-gray-900">In Water</label>
+              </div>
+
+              <div className="mt-10 sm:col-span-2 flex items-center gap-x-3">
+                  <input
+                    type="radio"
+                    id="out-of-water"
+                    autoComplete="out-of-water"
+                    value="O"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("volunteer_preference")}
+                  />
+                <label htmlFor="out-of-water" className="block text-sm font-medium leading-6 text-gray-900">Out of Water</label>
+              </div>
+
+              <div className="mt-10 sm:col-span-2 flex items-center gap-x-3">
+                  <input
+                    type="radio"
+                    id="wherever-needed"
+                    autoComplete="wherever-needed"
+                    value="O"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("volunteer_preference")}
+                  />
+                <label htmlFor="wherever-needed" className="block text-sm font-medium leading-6 text-gray-900">Wherever Needed</label>
+              </div>
+
+              {/* Volunteer Experience */}
+              <div className="col-span-full">
+                <label htmlFor="comment" className="block text-sm font-medium leading-5 text-gray-900">
+                  Do you have any volunteer background to share? If so please Comment:
+                </label>
+                <div className="mt-2">
+                  <textarea
+                    rows={4}
+                    id="comment"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                    {...register("comment")}
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </>
+      )}
+
+      {formPage === 1 && isVolunteer !== undefined && !isVolunteer && (
+        // Surfer Specific Fields
+        <>
+          {/* Is this your first time surfing with Equipped For Surfers? */}
+          <div className="border-b border-gray-900/10 pb-12">
+            <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <legend className="text-base font-semibold leading-7 text-gray-900">Is this your first time surfing with Equipped For Surfing?<span className="text-red-500">*</span></legend>
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="first-time-surfing" className="block text-sm font-medium leading-6 text-gray-900">Yes</label>
+                <div className="mt-2">
+                  <input
+                    type="radio"
+                    id="first-time-surfing"
+                    autoComplete="first-time-surfing"
+                    value="true"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("first_time_surfing", {required: "This field is required"})}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="not-first-time-surfing" className="block text-sm font-medium leading-6 text-gray-900">No</label>
+                <div className="mt-2">
+                  <input
+                    type="radio"
+                    id="not-first-time-surfing"
+                    autoComplete="not-first-time-surfing"
+                    value="false"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("first_time_surfing", {required: "This field is required"})}
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          {/* What is your physical size what are your physical Limitations */}
+          <div className="border-b border-gray-900/10 pb-12 mb-10">
+            <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <legend className="text-base font-semibold leading-7 text-gray-900">Help us understand your needs</legend>
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="height" className="block text-sm font-medium leading-6 text-gray-900">
+                  Height
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    id="height"
+                    autoComplete="height"
+                    placeholder="'0\' 0"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                    {...register("height")}
+                  />
+                </div>
+              </div>
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="weight" className="block text-sm font-medium leading-6 text-gray-900">
+                  Weight
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    id="weight"
+                    autoComplete="weight"
+                    placeholder="0 lbs"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                    {...register("weight")}
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-full">
+                <label htmlFor="disability_background" className="block text-sm font-medium leading-5 text-gray-900">
+                  Can you please give us some background about your disability so we can pair you with the correct equipment and volunteer.
+                </label>
+                <div className="mt-2">
+                  <textarea
+                    rows={4}
+                    id="disability_background"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                    {...register("disability_background")}
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </>
       )}
 
       {formPage === 2 && (
-       <div className="border-b border-gray-900/10 pb-12">
-       <div className="mt-10">
-         <h1 className="mt-10 text-3xl font-semibold leading-8 text-gray-900">Release of Liability</h1>
+        <div className="border-b border-gray-900/10 pb-12">
+          <div className="mt-10">
+            <h1 className="mt-10 text-3xl font-semibold leading-8 text-gray-900">Release of Liability</h1>
 
-         <h2 className="mt-10 text-lg font-semibold leading-7 text-gray-900">1. Agreement to Follow Directions</h2>
-         <p className='mt-2'>I agree to observe and obey all posted rules and warnings, and further agree to follow any oral instructions or directions given by Equip For Living Foundation, or the employees, representatives, or agents of Equip For Living Foundation.</p>
+            <h2 className="mt-10 text-lg font-semibold leading-7 text-gray-900">1. Agreement to Follow Directions</h2>
+            <p className='mt-2'>I agree to observe and obey all posted rules and warnings, and further agree to follow any oral instructions or directions given by Equip For Living Foundation, or the employees, representatives, or agents of Equip For Living Foundation.</p>
 
-         <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>2. Assumption of the Risks and Release</h2>
-         <p className='mt-2'>I recognize that there are certain inherent risks associated with the above-described activity and I assume full responsibility for personal injury to myself and (if applicable) my family members, and further release and discharge Equip For Living Foundation for injury, loss, or damage arising out of my or my family's use of or presence upon the facilities of Equip For Living Foundation, whether caused by the fault of myself, my family, Equip For Living Foundation, or other third parties.</p>
+            <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>2. Assumption of the Risks and Release</h2>
+            <p className='mt-2'>I recognize that there are certain inherent risks associated with the above-described activity and I assume full responsibility for personal injury to myself and (if applicable) my family members, and further release and discharge Equip For Living Foundation for injury, loss, or damage arising out of my or my family's use of or presence upon the facilities of Equip For Living Foundation, whether caused by the fault of myself, my family, Equip For Living Foundation, or other third parties.</p>
 
-         <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>3. Indemnification</h2>
-         <p className='mt-2'>I agree to indemnify and defend Equip For Living Foundation against all claims, causes of action, damages, judgments, costs, or expenses, including attorney fees and other litigation costs, which may in any way arise from my or my family's use of or presence upon the facilities of Equip For Living Foundation.</p>
+            <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>3. Indemnification</h2>
+            <p className='mt-2'>I agree to indemnify and defend Equip For Living Foundation against all claims, causes of action, damages, judgments, costs, or expenses, including attorney fees and other litigation costs, which may in any way arise from my or my family's use of or presence upon the facilities of Equip For Living Foundation.</p>
 
-         <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>4. Fees</h2>
-         <p className='mt-2'>I agree to pay for all damages to the facilities of Equip For Living Foundation caused by any negligent, reckless, or willful actions by me or my family.</p>
+            <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>4. Fees</h2>
+            <p className='mt-2'>I agree to pay for all damages to the facilities of Equip For Living Foundation caused by any negligent, reckless, or willful actions by me or my family.</p>
 
-         <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>5. Applicable Law</h2>
-         <p className='mt-2'>Any legal or equitable claim that may arise from participation in the above shall be resolved under Maine law.</p>
+            <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>5. Applicable Law</h2>
+            <p className='mt-2'>Any legal or equitable claim that may arise from participation in the above shall be resolved under Maine law.</p>
 
-         <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>6. No Duress</h2>
-         <p className='mt-2'>I agree and acknowledge that I am under no pressure or duress to sign this Agreement and that I have been given a reasonable opportunity to review it before signing. I further agree and acknowledge that I am free to have my own legal counsel review this Agreement if I so desire. I further agree and acknowledge that Equip For Living Foundation has offered to refund any fees I have paid to use its facilities if I choose not to sign this Agreement.</p>
+            <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>6. No Duress</h2>
+            <p className='mt-2'>I agree and acknowledge that I am under no pressure or duress to sign this Agreement and that I have been given a reasonable opportunity to review it before signing. I further agree and acknowledge that I am free to have my own legal counsel review this Agreement if I so desire. I further agree and acknowledge that Equip For Living Foundation has offered to refund any fees I have paid to use its facilities if I choose not to sign this Agreement.</p>
 
-         <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>7. Arm's Length Agreement</h2>
-         <p className='mt-2'>This Agreement and each of its terms are the product of an arm's length negotiation between the Parties. In the event any ambiguity is found to exist in the interpretation of this Agreement, or any of its provisions, the Parties, and each of them, explicitly reject the application of any legal or equitable rule of interpretation which would lead to a construction either "for" or "against" a particular party based upon their status as the drafter of a specific term, language, or provision giving rise to such ambiguity.</p>
+            <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>7. Arm's Length Agreement</h2>
+            <p className='mt-2'>This Agreement and each of its terms are the product of an arm's length negotiation between the Parties. In the event any ambiguity is found to exist in the interpretation of this Agreement, or any of its provisions, the Parties, and each of them, explicitly reject the application of any legal or equitable rule of interpretation which would lead to a construction either "for" or "against" a particular party based upon their status as the drafter of a specific term, language, or provision giving rise to such ambiguity.</p>
 
-         <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>8. Enforceability</h2>
-         <p className='mt-2'>The invalidity or unenforceability of any provision of this Agreement shall not affect the validity or enforceability of any other provision of this Agreement, which shall remain in full force and effect.</p>
-       </div>
+            <h2 className='mt-10 text-lg font-semibold leading-7 text-gray-900'>8. Enforceability</h2>
+            <p className='mt-2'>The invalidity or unenforceability of any provision of this Agreement shall not affect the validity or enforceability of any other provision of this Agreement, which shall remain in full force and effect.</p>
+          </div>
 
-       <fieldset className="col-span-full">
-         <div className="mt-10 space-y-6">
-           <div className="flex items-center gap-x-3">
-             <input
-               id="legal-guardian"
-               type="radio"
-                 className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
-                 onClick={()=>{setIsParentGuardian(true)}}
-                 value="guardian"
-                 {...register("release_role")}
-               />
-               <label htmlFor="legal-guardian" className="block text-sm font-medium leading-6 text-gray-900">I am the parent or legal guardian of the participant, signing this document on their behalf.</label>
-             </div>
-             <div className="flex items-center gap-x-3">
-               <input
-                 id="participant"
-                 type="radio"
-                 className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
-                 value="participant"
-                 {...register("release_role", )}
-                 onClick={()=>{setIsParentGuardian(false)}}
-               />
-               <label htmlFor="participant" className="block text-sm font-medium leading-6 text-gray-900">I am a participant over the age of 18 and am signing this document for myself.</label>
-             </div>
-           </div>
-       </fieldset>
+          <fieldset className="col-span-full">
+            <div className="mt-10 space-y-6">
+              <div className="flex items-center gap-x-3">
+                <input
+                  id="legal-guardian"
+                  type="radio"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    onClick={()=>{setIsParentGuardian(true)}}
+                    value="guardian"
+                    {...register("release_role")}
+                  />
+                  <label htmlFor="legal-guardian" className="block text-sm font-medium leading-6 text-gray-900">I am the parent or legal guardian of the {isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Participant') : 'Undefined'}, signing this document on their behalf.</label>
+                </div>
+                <div className="flex items-center gap-x-3">
+                  <input
+                    id="participant"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    value="participant"
+                    {...register("release_role", )}
+                    onClick={()=>{setIsParentGuardian(false)}}
+                  />
+                  <label htmlFor="participant" className="block text-sm font-medium leading-6 text-gray-900">I am a {isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Participant') : 'Undefined'} over the age of 18 and am signing this document for myself.</label>
+                </div>
+              </div>
+          </fieldset>
 
-       { isParentGuardian !== undefined ? (
-         isParentGuardian? (
-           <>
-             <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-               <legend className="text-base font-semibold leading-7 text-gray-900">BY SIGNING THIS DOCUMENT I AGREE THA HAVE READ THIS DOCUMENT AND UNDERSTAND IT. I FURTHER UNDERSTAND THAT BY SIGNING THIS RELEASE, I VOLUNTARILY SURRENDER CERTAIN LEGAL RIGHTS.</legend>
-               <p className='mt-2 col-span-full'>In the event that the participant is under the age of consent (18 years of age), then this release must be signed by a parent or guardian, as follows:</p>
-               <h3 className="mt-10 text-lg font-semibold leading-7 text-gray-900 col-span-full">Parent / Guardian Waiver for Minors</h3>
-               <p className='mt-2 col-span-full'>The undersigned parent and natural guardian or legal guardian does hereby represent that he/she is, in fact, acting in such capacity and agrees to save and hold harmless and indemnify each and all of the parties referred to above from all liability, loss, cost, claim, or damage whatsoever which may be imposed upon said parties because of any defect in or lack of such capacity to so act and release said parties on behalf of the minor and the parents or legal guardian.</p>
+          { isParentGuardian !== undefined ? (
+            isParentGuardian? (
+              <>
+                <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                  <legend className="text-base font-semibold leading-7 text-gray-900">BY SIGNING THIS DOCUMENT I AGREE THA HAVE READ THIS DOCUMENT AND UNDERSTAND IT. I FURTHER UNDERSTAND THAT BY SIGNING THIS RELEASE, I VOLUNTARILY SURRENDER CERTAIN LEGAL RIGHTS.</legend>
+                  <p className='mt-2 col-span-full'>In the event that the participant is under the age of consent (18 years of age), then this release must be signed by a parent or guardian, as follows:</p>
+                  <h3 className="mt-10 text-lg font-semibold leading-7 text-gray-900 col-span-full">Parent / Guardian Waiver for Minors</h3>
+                  <p className='mt-2 col-span-full'>The undersigned parent and natural guardian or legal guardian does hereby represent that he/she is, in fact, acting in such capacity and agrees to save and hold harmless and indemnify each and all of the parties referred to above from all liability, loss, cost, claim, or damage whatsoever which may be imposed upon said parties because of any defect in or lack of such capacity to so act and release said parties on behalf of the minor and the parents or legal guardian.</p>
 
-               <fieldset className="col-span-full">
-                 <div className="flex items-center gap-x-3">
-                   <input
-                     id="legal-guardian-acknowledgement"
-                     type="radio"
-                       className="h-4 w-4 border-gray-300 text-purple focus:ring-purple"
-                       value="checked"
-                       {...register("legal-guardian-acknowledgement", {required: "This field is required"})}
-                       onClick={()=>{setIsParentGuardian(true)}}
-                     />
-                     <label htmlFor="legal-guardian-acknowledgement" className="block text-sm font-medium leading-6 text-gray-900">I HEREBY CERTIFY that I am the parent or legal guardian of the participant, named above, and do hereby give my consent without reservation to the foregoing on behalf of this individual.</label>
-                 </div>
-               </fieldset>
+                  <fieldset className="col-span-full">
+                    <div className="flex items-center gap-x-3">
+                      <input
+                        id="legal-guardian-acknowledgement"
+                        type="radio"
+                          className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                          value="checked"
+                          {...register("legal-guardian-acknowledgement", {required: "This field is required"})}
+                          onClick={()=>{setIsParentGuardian(true)}}
+                        />
+                        <label htmlFor="legal-guardian-acknowledgement" className="block text-sm font-medium leading-6 text-gray-900">I HEREBY CERTIFY that I am the parent or legal guardian of the participant, named above, and do hereby give my consent without reservation to the foregoing on behalf of this individual.</label>
+                    </div>
+                  </fieldset>
 
-               <input type="hidden" value={isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Surfer') : 'Undefined'}/>
+                  <input type="hidden" value={isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Surfer') : 'Undefined'}/>
 
-               <div className="mt-10 sm:col-span-3">
-                 <label htmlFor="signature" className="block text-sm font-medium leading-6 text-gray-900">
-                   Signature
-                 </label>
-                 <div className="mt-2">
-                   <input
-                     type="text"
-                     id="signature"
-                     autoComplete="signature"
-                     {...register("signature", {required: "This field is required"})}
-                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                   />
-                 </div>
-               </div>
+                  <div className="mt-10 sm:col-span-3">
+                    <label htmlFor="signature" className="block text-sm font-medium leading-6 text-gray-900">
+                      Signature
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="text"
+                        id="signature"
+                        autoComplete="signature"
+                        {...register("signature", {required: "This field is required"})}
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
 
-               <div className="mt-10 sm:col-span-3">
-                 <label htmlFor="date" className="block text-sm font-medium leading-6 text-gray-900">
-                   Date
-                 </label>
-                 <div className="mt-2">
-                   <input
-                     type="date"
-                     id="date"
-                     autoComplete="date"
-                     {...register("date", {required: "This field is required"})}
-                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                   />
-                 </div>
-               </div>
-             </fieldset>
-           </>
-         ) : (
-           <>
-             <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-               <legend className="text-base font-semibold leading-7 text-gray-900">BY SIGNING THIS DOCUMENT I AGREE THA HAVE READ THIS DOCUMENT AND UNDERSTAND IT. I FURTHER UNDERSTAND THAT BY SIGNING THIS RELEASE, I VOLUNTARILY SURRENDER CERTAIN LEGAL RIGHTS.</legend>
-               {/* If isVolunteer create a Hidden Input that stores the value Volunteer else stores the value Surfer */}
-               <input type="hidden" value={isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Surfer') : 'Undefined'}/>
+                  <div className="mt-10 sm:col-span-3">
+                    <label htmlFor="date" className="block text-sm font-medium leading-6 text-gray-900">
+                      Date
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="date"
+                        id="date"
+                        autoComplete="date"
+                        {...register("date", {required: "This field is required"})}
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+              </>
+            ) : (
+              <>
+                <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                  <legend className="text-base font-semibold leading-7 text-gray-900">BY SIGNING THIS DOCUMENT I AGREE THA HAVE READ THIS DOCUMENT AND UNDERSTAND IT. I FURTHER UNDERSTAND THAT BY SIGNING THIS RELEASE, I VOLUNTARILY SURRENDER CERTAIN LEGAL RIGHTS.</legend>
+                  {/* If isVolunteer create a Hidden Input that stores the value Volunteer else stores the value Surfer */}
+                  <input type="hidden" value={isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Surfer') : 'Undefined'}/>
 
-               <div className="mt-10 sm:col-span-3">
-                 <label htmlFor="signature" className="block text-sm font-medium leading-6 text-gray-900">
-                   Signature
-                 </label>
-                 <div className="mt-2">
-                   <input
-                     type="text"
-                     id="signature"
-                     autoComplete="signature"
-                     {...register("signature", {required: "This field is required"})}
-                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                   />
-                 </div>
-               </div>
+                  <div className="mt-10 sm:col-span-3">
+                    <label htmlFor="signature" className="block text-sm font-medium leading-6 text-gray-900">
+                      Signature
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="text"
+                        id="signature"
+                        autoComplete="signature"
+                        {...register("signature", {required: "This field is required"})}
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
 
-               <div className="mt-10 sm:col-span-3">
-                 <label htmlFor="date" className="block text-sm font-medium leading-6 text-gray-900">
-                   Date
-                 </label>
-                 <div className="mt-2">
-                   <input
-                     type="date"
-                     id="date"
-                     autoComplete="date"
-                     {...register("date", {required: "This field is required"})}
-                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple sm:text-sm sm:leading-6"
-                   />
-                 </div>
-               </div>
-             </fieldset>
-           </>
-         )
-       ) : (
-         // Render when isParentGuardian is undefined
-         <p className='mt-10 text-purple'>Please Select a Legal Guardian Acknowledgement</p>
-       )}
-     </div>
+                  <div className="mt-10 sm:col-span-3">
+                    <label htmlFor="date" className="block text-sm font-medium leading-6 text-gray-900">
+                      Date
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="date"
+                        id="date"
+                        autoComplete="date"
+                        {...register("date", {required: "This field is required"})}
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+              </>
+            )
+          ) : (
+            // Render when isParentGuardian is undefined
+            <p className='mt-10 text-purple'>Please Select a Legal Guardian Acknowledgement<span className="text-red-500">*</span></p>
+          )}
+        </div>
       )}
 
       {formPage === 1 && (
@@ -681,7 +594,14 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
       </div>
       )}
 
-      
+      {formPage === 3 && (
+        <>
+          <div className="mt-10">
+            <h1 className="mt-10 text-4xl font-semibold leading-8 text-gray-900">Thank you for registering!</h1>
+            <p className="mt-2 text-gray-600">Should we require any further details, a member of the Equip For Living team will be in touch with you. Otherwise, we look forward to seeing you at the event.</p>
+          </div>
+        </>
+      )}
     </form>
   )
 }

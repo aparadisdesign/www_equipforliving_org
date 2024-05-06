@@ -4,7 +4,6 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function Navigation({navigation}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  console.log(navigation)
   return (
     <header className="bg-purple">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">

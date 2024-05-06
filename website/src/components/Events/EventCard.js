@@ -6,7 +6,7 @@
             <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
             <img
                 src={event.imageUrl.eventImage}
-                alt="Image of an adaptive surfer"
+                alt={event.imageUrl?.alt}
                 className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
             />
             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
@@ -20,7 +20,7 @@
             </div>
             <div className="group relative max-w-xl">
                 <h3 className="mt-1 text-lg font-semibold leading-6 text-green group-hover:text-gray-600">
-                <a href={event.href}>
+                <a href='#'>
                     <span className="absolute inset-0" />
                     {event.title}
                 </a>
@@ -33,10 +33,8 @@
                 <img src={event.host.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
                 <div className="text-sm leading-6">
                     <p className="font-semibold text-gray-900">
-                    <a href={event.host.href}>
                         <span className="absolute inset-0" />
                         {event.host.name}
-                    </a>
                     </p>
                     <p className="text-gray-600">{event.host.role}</p>
                 </div>
