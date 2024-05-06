@@ -1,24 +1,44 @@
-from django.core.mail import send_mail
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from datetime import datetime
+from rest_framework.generics import CreateAPIView
 from .serializers import RegistrationSerializer
+from .models import Registration, EventDate
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
-@api_view(['POST'])
-def handle_form_data(request):
-    if request.method == 'POST':
-        serializer = RegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            # Construct email body
-            body = ""
-            for key, value in request.data.items():
-                body += f"{key}: {value}\n"
+class RegistrationCreateAPIView(CreateAPIView):
+    queryset = Registration.objects.all()
+    serializer_class = RegistrationSerializer
 
-            # Send email
-            subject = 'Registration Successful'
-            message = body
-            recipient_email = serializer.validated_data['email']  # Assuming email is a field in your serializer
-            send_mail(subject, message, 'brandon.h.goding@gmail.com', [recipient_email], bcc=["brandon.h.goding@gmail.com", "aparadis.creative@gmail.com"])
-            return Response({'message': 'Form data received successfully!'})
-        else:
-            return Response(serializer.errors, status=400)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Extract attendance_dates from request data
+        dates_data = request.data.get('attendance_dates', [])
+        attendance_date_objs = []
+
+        # Iterate over each date and create or retrieve EventDate objects
+        for date_str in dates_data:
+            try:
+                date_obj = datetime.strptime(str(date_str), "%Y-%m-%d").date()
+            except ValueError:
+                # Handle invalid date format here
+                continue
+
+            event_date_obj, _ = EventDate.objects.get_or_create(date=date_obj)
+            attendance_date_objs.append(event_date_obj)
+
+        # Create the Registration object
+        registration = Registration.objects.create(**serializer.validated_data)
+
+        # Add the related EventDate objects to the registration
+        registration.attendance_dates.set(attendance_date_objs)
+
+        # Optionally, you can customize the response data
+        response_data = {
+            'registration': RegistrationSerializer(registration).data,
+            'message': 'Registration created successfully'
+        }
+
+        return Response(response_data, status=status.HTTP_201_CREATED)
