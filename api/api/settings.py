@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 from pathlib import Path
 from decouple import config
-import pymysql
-
-pymysql.install_as_MySQLdb()
+# import pymysql
+#
+# pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +26,7 @@ SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['www.equipforliving.org', 'equipforliving.org',]
+ALLOWED_HOSTS = ['www.equipforliving.org', 'equipforliving.org']
 
 
 # Application definition
@@ -49,6 +49,10 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+
 }
 
 MIDDLEWARE = [
@@ -81,6 +85,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'api.wsgi.application'
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 DATABASES = {
@@ -147,12 +159,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
-    '*'
+    'https://www.equipforliving.org'
 )
 CORS_ALLOWED_ORIGINS = [
     "https://www.equipforliving.org",
-    "https://localhost:3000"
 ]
 SECURE_SSL_REDIRECT = True
