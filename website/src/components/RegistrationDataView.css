@@ -1,0 +1,76 @@
+@media print {
+    body * {
+
+        visibility: hidden; /* Hide everything in the body when printing */
+    }
+    .print-area * {
+        visibility: visible; /* Make the specific div and its children visible */
+    }
+    .print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .print-area .pagebreak{
+        page-break-before: always !important;
+        break-before: page !important;
+    }
+    .print-area .registration-info, .print-area .waiver{
+        display: block;
+    }
+    .print-area .waiver .hidden{
+        display: block;
+    }
+
+    .print-area .registration-info .inner{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .print-area .waiver h1, .print-area .waiver h2 {
+        margin-top: 10px; /* Reduce margin for paragraphs */
+        font-size: 1.25rem; /* Slightly larger font for headings */
+    }
+    .print-area .waiver p {
+        font-size: 1rem;
+        margin-top: 0; /* Reduce margin for paragraphs */
+        margin-bottom: 0.1rem;
+    }
+    .print-area .hide-for-print {
+        display: none; /* Hide the print button */
+    }
+
+    .print-area .registration-info .inner > div:not(.full-width-print){
+        width: 50%;
+        margin: 0;
+        padding: 0;
+    }
+    .print-area .full-width-print {
+        width: 100%; /* Make the div full width */
+        margin: 20px;
+    }
+    .print-area .mx-4 {
+        margin-left: 20px; /* Reduce side margins */
+        margin-right: 20px;
+    }
+    .print-area .py-2, .print-area .py-6 {
+        padding-top: 0; /* Reduce vertical paddings */
+        padding-bottom: 0;
+    }
+    .print-area h2, .print-area h3 {
+        font-size: 0.9rem; /* Reduce font size for headers */
+    }
+    .print-area .text-sm {
+        font-size: 0.7rem; /* Reduce font size for standard text */
+    }
+    .print-area dl, .print-area dt, .print-area dd {
+        margin: 0;
+        padding: 0.1rem;
+    }
+    .print-area .grid {
+        display: block; /* Optional: Change grid layouts to block to save space */
+    }
+
+
+}

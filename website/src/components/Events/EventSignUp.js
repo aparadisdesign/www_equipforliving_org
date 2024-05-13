@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import axios from 'axios';
+import axios from '../../api/axios';
 
-export default function EventSignUp() {
-const [formPage, setFormPage] = useState(1)
+export default function EventSignUp({formPage, setFormPage}) {
 const [isVolunteer, setIsVolunteer] = useState(undefined)
 const [isParentGuardian, setIsParentGuardian] = useState(undefined)
 
 
-const {register, handleSubmit} = useForm();
+// const {register, handleSubmit} = useForm();
+const { register, handleSubmit, formState: { errors } } = useForm();
 
 const buttonClasses = 'rounded-md bg-purple px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple'
-const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-white shadow-sm cursor-not-allowed opacity-50'
+const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm cursor-not-allowed opacity-50'
 
   return (
     <form className="mx-auto max-w-7xl px-6 lg:px-8 py-6" onSubmit={handleSubmit(async (data) => {
@@ -20,7 +20,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
       }
       if(formPage === 2 ){
         // Assuming data contains your form data
-        axios.post('https://www.equipforliving.org/api/', data, {
+        axios.post('/api/', data, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -44,58 +44,58 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
             <legend className="text-base font-semibold leading-7 text-gray-900">Choose The Date(s) You Would Like To Attend<span className="text-red-500">*</span></legend> 
             <p className="mt-1 text-sm leading-6 text-gray-600">You may choose multiple dates</p>
             <div className="mt-10 sm:col-span-3">
-              <div className="relative flex gap-x-3">
-                <div className="flex h-6 items-center">
-                  <input
-                    id="date-1"
-                    value="2024-08-08"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
-                    {...register("attendance_dates")}
-                  />
-                </div>
-                <div className="text-sm leading-6">
-                  <label htmlFor="date-1" className="font-medium text-gray-900">
-                  August 8th, 2024
-                  </label>
-                  <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
-                </div>
-              </div>
+          <div className="relative flex gap-x-3">
+            <div className="flex h-6 items-center">
+          <input
+            id="date-1"
+            value="2024-08-08"
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
+            {...register("attendance_dates", { required: "Please select at least one date" })}
+          />
+            </div>
+            <div className="text-sm leading-6">
+          <label htmlFor="date-1" className="font-medium text-gray-900">
+          August 8th, 2024
+          </label>
+          <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
+            </div>
+          </div>
 
-              <div className="relative flex gap-x-3">
-                <div className="flex h-6 items-center">
-                  <input
-                    id="date-2"
-                    value="2024-07-11"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
-                    {...register("attendance_dates")}
-                  />
-                </div>
-                <div className="text-sm leading-6">
-                  <label htmlFor="date-1" className="font-medium text-gray-900">
-                  July 11th, 2024
-                  </label>
-                  <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
-                </div>
-              </div>
-              <div className="relative flex gap-x-3">
-                <div className="flex h-6 items-center">
-                  <input
-                    id="date-3"
-                    value="2024-06-20"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
-                    {...register("attendance_dates")}
-                  />
-                </div>
-                <div className="text-sm leading-6">
-                  <label htmlFor="date-3" className="font-medium text-gray-900">
-                    June 20th, 2024
-                  </label>
-                  <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
-                </div>
-              </div>
+          <div className="relative flex gap-x-3">
+            <div className="flex h-6 items-center">
+          <input
+            id="date-2"
+            value="2024-07-11"
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
+            {...register("attendance_dates", { required: "Please select at least one date" })}
+          />
+            </div>
+            <div className="text-sm leading-6">
+          <label htmlFor="date-1" className="font-medium text-gray-900">
+          July 11th, 2024
+          </label>
+          <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
+            </div>
+          </div>
+          <div className="relative flex gap-x-3">
+            <div className="flex h-6 items-center">
+          <input
+            id="date-3"
+            value="2024-06-20"
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
+            {...register("attendance_dates", { required: "Please select at least one date" })}
+          />
+            </div>
+            <div className="text-sm leading-6">
+          <label htmlFor="date-3" className="font-medium text-gray-900">
+            June 20th, 2024
+          </label>
+          <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
+            </div>
+          </div>
             </div>
           </fieldset>
           <fieldset className="sm:col-span-3">
@@ -108,7 +108,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     onClick={()=>{setIsVolunteer(true)}}
-                    value="V"
+                    value="Volunteer"
                     {...register("registration_type")}
                   />
                   <label htmlFor="volunteer" className="block text-sm font-medium leading-6 text-gray-900">
@@ -120,7 +120,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     id="surfer"
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
-                    value="S"
+                    value="Surfer"
                     onClick={()=>{setIsVolunteer(false)}}
                     {...register("registration_type")}
                   />
@@ -153,6 +153,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   {...register("first_name", {required: "This field is required"})}
                 />
+                {errors.first_name && (<p className="text-red-500">{errors.first_name.message}</p>)}
               </div>
             </div>
 
@@ -168,6 +169,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   {...register("last_name", {required: "This field is required"})}
                 />
+                {errors.last_name && (<p className="text-red-500">{errors.last_name.message}</p>)}
               </div>
             </div>
 
@@ -183,6 +185,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   placeholder="example@gmail.com"
                   {...register("email", {required: "This field is required"})}
                 />
+                {errors.email && (<p className="text-red-500">{errors.email.message}</p>)}
               </div>
             </div>
 
@@ -196,8 +199,9 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   id="phone-number"
                   className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   placeholder="+1 (555) 987-6543"
-                  {...register("phone_number")}
+                  {...register("phone_number", {required: "This field is required"})}
                 />
+                {errors.phone_number && (<p className="text-red-500">{errors.phone_number.message}</p>)}
               </div>
             </div>
           </fieldset>
@@ -207,7 +211,6 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
         <div className="border-b border-gray-900/10 pb-12">
           <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <legend className="text-base font-semibold leading-7 text-gray-900">Emergency Contact</legend>
-
             <div className="mt-10 sm:col-span-3">
               <label htmlFor="emergency-contact-name" className="block text-sm font-medium leading-6 text-gray-900">
                 Contact's Name<span className="text-red-500">*</span>
@@ -220,6 +223,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   {...register("emergency_contact_name", {required: "This field is required"})}
                 />
+                {errors.emergency_contact_name && (<p className="text-red-500">{errors.emergency_contact_name.message}</p>)}
               </div>
             </div>
 
@@ -235,6 +239,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   {...register("emergency_contact_phone", {required: "This field is required"})}
                 />
+                {errors.emergency_contact_phone && (<p className="text-red-500">{errors.emergency_contact_phone.message}</p>)}
               </div>
             </div>
 
@@ -248,6 +253,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   {...register("emergency_contact_relationship", {required: "This field is required"})}
                 />
+                {errors.emergency_contact_relationship && (<p className="text-red-500">{errors.emergency_contact_relationship.message}</p>)}
               </div>
             </div>
           </fieldset>
@@ -262,17 +268,17 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
           {/* Volunteer Experience */}
           <div className="border-b border-gray-900/10 pb-12">
             <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <legend className="text-base font-semibold leading-7 text-gray-900">What is your preference for volunteering (In/Out of water)?</legend>
-
-              <div className="mt-10 sm:col-span-2 flex items-center gap-x-3 align-middle">
+              <legend className="text-base font-semibold leading-7 text-gray-900">What is your preference for volunteering? <span className="text-red-500">*</span></legend>
+              <div className="mt-10 sm:col-span-2 flex items-center gap-x-3 items-middle">
                   <input
                     type="radio"
                     id="in-water"
                     autoComplete="in-water"
-                    value="W"
+                    value="In Water"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     {...register("volunteer_preference")}
                   />
+                  {errors.volunteer_preference && (<p className="text-red-500">{errors.volunteer_preference.message}</p>)}
                 <label htmlFor="in-water" className="block text-sm font-medium leading-6 text-gray-900">In Water</label>
               </div>
 
@@ -281,11 +287,12 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     type="radio"
                     id="out-of-water"
                     autoComplete="out-of-water"
-                    value="O"
+                    value="On Land"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     {...register("volunteer_preference")}
                   />
-                <label htmlFor="out-of-water" className="block text-sm font-medium leading-6 text-gray-900">Out of Water</label>
+                  {errors.volunteer_preference && (<p className="text-red-500">{errors.volunteer_preference.message}</p>)}
+                <label htmlFor="out-of-water" className="block text-sm font-medium leading-6 text-gray-900">On Land</label>
               </div>
 
               <div className="mt-10 sm:col-span-2 flex items-center gap-x-3">
@@ -293,25 +300,27 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     type="radio"
                     id="wherever-needed"
                     autoComplete="wherever-needed"
-                    value="O"
+                    value="Wherever Needed"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     {...register("volunteer_preference")}
                   />
+                  {errors.volunteer_preference && (<p className="text-red-500">{errors.volunteer_preference.message}</p>)}
                 <label htmlFor="wherever-needed" className="block text-sm font-medium leading-6 text-gray-900">Wherever Needed</label>
               </div>
 
               {/* Volunteer Experience */}
               <div className="col-span-full">
                 <label htmlFor="comment" className="block text-sm font-medium leading-5 text-gray-900">
-                  Do you have any volunteer background to share? If so please Comment:
+                  Please share any relevant experience or skills you have. <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2">
                   <textarea
                     rows={4}
                     id="comment"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
-                    {...register("comment")}
+                    {...register("comment", {required: "This field is required"})}
                   />
+                  {errors.comment && (<p className="text-red-500">{errors.comment.message}</p>)}
                 </div>
               </div>
             </fieldset>
@@ -337,6 +346,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     {...register("first_time_surfing", {required: "This field is required"})}
                   />
+                  {errors.first_time_surfing && (<p className="text-red-500">{errors.first_time_surfing.message}</p>)}
                 </div>
               </div>
 
@@ -351,6 +361,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     {...register("first_time_surfing", {required: "This field is required"})}
                   />
+                  {errors.first_time_surfing && (<p className="text-red-500">{errors.first_time_surfing.message}</p>)}
                 </div>
               </div>
             </fieldset>
@@ -359,10 +370,10 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
           {/* What is your physical size what are your physical Limitations */}
           <div className="border-b border-gray-900/10 pb-12 mb-10">
             <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <legend className="text-base font-semibold leading-7 text-gray-900">Help us understand your needs</legend>
+              <legend className="text-base font-semibold leading-7 text-gray-900">Help Us Understand how we can best support your surfing experiance</legend>
               <div className="mt-10 sm:col-span-3">
                 <label htmlFor="height" className="block text-sm font-medium leading-6 text-gray-900">
-                  Height
+                  Height <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -371,13 +382,14 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     autoComplete="height"
                     placeholder="'0\' 0"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
-                    {...register("height")}
+                    {...register("height", {required: "This field is required"})}
                   />
+                  {errors.height && (<p className="text-red-500">{errors.height.message}</p>)}
                 </div>
               </div>
               <div className="mt-10 sm:col-span-3">
                 <label htmlFor="weight" className="block text-sm font-medium leading-6 text-gray-900">
-                  Weight
+                  Weight <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -386,24 +398,28 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     autoComplete="weight"
                     placeholder="0 lbs"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
-                    {...register("weight")}
+                    {...register("weight", {required: "This field is required"})}
                   />
+                  {errors.weight && (<p className="text-red-500">{errors.weight.message}</p>)}
                 </div>
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="disability_background" className="block text-sm font-medium leading-5 text-gray-900">
-                  Can you please give us some background about your disability so we can pair you with the correct equipment and volunteer.
+                  Can you please give us some background about your disability, abilities and limitations so we can pair you with the correct equipment and volunteer.
                 </label>
+                <p className="mt-1 text-sm leading-6 text-gray-600">Please be as detailed as possible!</p>
                 <div className="mt-2">
                   <textarea
                     rows={4}
                     id="disability_background"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
-                    {...register("disability_background")}
+                    {...register("disability_background", {required: "This field is required"})}
                   />
+                  {errors.disability_background && (<p className="text-red-500">{errors.disability_background.message}</p>)}
                 </div>
               </div>
+
             </fieldset>
           </div>
         </>
@@ -447,8 +463,8 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                   type="radio"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     onClick={()=>{setIsParentGuardian(true)}}
-                    value="guardian"
-                    {...register("release_role")}
+                    value="Guardian"
+                    {...register("release_role", {required: "Please Select an Option"})}
                   />
                   <label htmlFor="legal-guardian" className="block text-sm font-medium leading-6 text-gray-900">I am the parent or legal guardian of the {isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Participant') : 'Undefined'}, signing this document on their behalf.</label>
                 </div>
@@ -457,12 +473,13 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                     id="participant"
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
-                    value="participant"
-                    {...register("release_role", )}
+                    value="Participant"
+                    {...register("release_role", {required: "Please Select an Option"})}
                     onClick={()=>{setIsParentGuardian(false)}}
                   />
                   <label htmlFor="participant" className="block text-sm font-medium leading-6 text-gray-900">I am a {isVolunteer !== undefined ? (isVolunteer ? 'Volunteer' : 'Participant') : 'Undefined'} over the age of 18 and am signing this document for myself.</label>
                 </div>
+                {errors.release_role && (<p className="text-red-500">{errors.release_role.message}</p>)}
               </div>
           </fieldset>
 
@@ -485,6 +502,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                           {...register("legal-guardian-acknowledgement", {required: "This field is required"})}
                           onClick={()=>{setIsParentGuardian(true)}}
                         />
+                        {errors['legal-guardian-acknowledgement'] && (<p className="text-red-500">{errors['legal-guardian-acknowledgement'].message}</p>)}
                         <label htmlFor="legal-guardian-acknowledgement" className="block text-sm font-medium leading-6 text-gray-900">I HEREBY CERTIFY that I am the parent or legal guardian of the participant, named above, and do hereby give my consent without reservation to the foregoing on behalf of this individual.</label>
                     </div>
                   </fieldset>
@@ -500,9 +518,10 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                         type="text"
                         id="signature"
                         autoComplete="signature"
-                        {...register("signature", {required: "This field is required"})}
+                        {...register("signature", {required: "Please Sign Here"})}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                       />
+                      {errors.signature && (<p className="text-red-500">{errors.signature.message}</p>)}
                     </div>
                   </div>
 
@@ -515,9 +534,10 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                         type="date"
                         id="date"
                         autoComplete="date"
-                        {...register("date", {required: "This field is required"})}
+                        {...register("date", {required: "Please Enter today's Date"})}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                       />
+                      {errors.date && (<p className="text-red-500">{errors.date.message}</p>)}
                     </div>
                   </div>
                 </fieldset>
@@ -538,9 +558,10 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                         type="text"
                         id="signature"
                         autoComplete="signature"
-                        {...register("signature", {required: "This field is required"})}
+                        {...register("signature", {required: "Please Sign Here"})}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                       />
+                      {errors.signature && (<p className="text-red-500">{errors.signature.message}</p>)}
                     </div>
                   </div>
 
@@ -553,9 +574,10 @@ const disabedButtonClasses = 'rounded-md bg-gray-300 px-3 py-2 text-sm font-semi
                         type="date"
                         id="date"
                         autoComplete="date"
-                        {...register("date", {required: "This field is required"})}
+                        {...register("date", {required: "Please Enter today's Date"})}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                       />
+                      {errors.date && (<p className="text-red-500">{errors.date.message}</p>)}
                     </div>
                   </div>
                 </fieldset>
