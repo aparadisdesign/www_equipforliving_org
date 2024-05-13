@@ -1,9 +1,11 @@
 from datetime import datetime
-from rest_framework.generics import CreateAPIView
-from .serializers import RegistrationSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from .serializers import RegistrationListSerializer, EventDatesSerializer, EventDateDetailSerializer, RegistrationSerializer
 from .models import Registration, EventDate
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+
 
 # Create your views here.
 class RegistrationCreateAPIView(CreateAPIView):
@@ -37,8 +39,20 @@ class RegistrationCreateAPIView(CreateAPIView):
 
         # Optionally, you can customize the response data
         response_data = {
-            'registration': RegistrationSerializer(registration).data,
+            'registration': RegistrationListSerializer(registration).data,
             'message': 'Registration created successfully'
         }
 
         return Response(response_data, status=status.HTTP_201_CREATED)
+
+
+class RegistrationListAPIView(ListAPIView):
+    queryset = Registration.objects.all().order_by('last_name')
+    serializer_class = RegistrationListSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class RegistrationDetailAPIView(RetrieveAPIView):
+    queryset = Registration.objects.all()
+    serializer_class = RegistrationListSerializer
+    permission_classes = (IsAuthenticated,)
