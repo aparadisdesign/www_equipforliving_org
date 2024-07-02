@@ -100,10 +100,10 @@ export default function Hero({navigation}) {
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56 px-6 lg:px-8">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
             <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-white ring-1 ring-white/10 hover:ring-white/20">
-            Help Support Equip For Living{' '}
-              <a href="https://www.paypal.com/donate/?cmd=_donations&business=equipforliving@gmail.com&item_name=Equip%20For%20Living%20Foundation&currency_code=USD" className="font-semibold text-white pl-1">
+            Join us at Equip For Surfing! {' '}
+              <a href="/event-sign-up" className="font-semibold text-white pl-1">
                 <span className="absolute inset-0" aria-hidden="true" />
-                Donate <span aria-hidden="true">&rarr;</span>
+                REGISTER NOW <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
           </div>

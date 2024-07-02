@@ -29,6 +29,7 @@ export default function RegistrationNavigationBar({ setRequestUrl }) {
         const response = await axiosPrivate.get('/api/list/', {
           signal: controller.signal
         });
+        console.log(response.data.results);
         const surfers = response.data.results.filter(person => person.registration_type === SURFER).map(person => ({
             id: person.id,
           name: `${person.first_name} ${person.last_name}`,

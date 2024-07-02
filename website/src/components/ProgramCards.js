@@ -37,7 +37,7 @@ export default function ProgramCards() {
             Our mission is to support adults with special needs and improve their quality of life by:
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Providing a resource hub where people can give and receive funding for adaptive equipment and technology, receive education relating to what services and activities are available in their area, and swap equipment with others in the community.
+          Equip For Living Foundation helps adults with special needs by funding adaptive equipment, therapy treatments and activities not covered by insurance with an emphasis on keeping folks healthy and engaged in an active lifestyle.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">

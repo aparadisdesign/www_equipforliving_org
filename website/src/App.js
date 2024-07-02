@@ -5,6 +5,7 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Programs from "./pages/Programs";
 import Events from "./pages/Events";
+import Grants from "./pages/Grants";
 import Volunteer from "./pages/Volunteer";
 import EventRegistration from "./pages/EventRegistration";
 import RegistrationDashboard from "./pages/RegistrationDashboard";
@@ -15,6 +16,7 @@ import RequireAuth from './components/RequireAuth';
 const navigation = [
   { name: 'Events', href: '/events' },
   { name: 'Programs', href: '/programs' },
+  { name: 'Equip For Living Grant', href: '/grant' },
   { name: 'Volunteer', href: '/volunteer'},
   { name: 'Donate', href: 'https://www.paypal.com/donate/?cmd=_donations&business=equipforliving@gmail.com&item_name=Equip%20For%20Living%20Foundation&currency_code=USD' },
   // { name: 'Contact Us', href: '#' },
@@ -32,6 +34,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home navigation={navigation} />} />
           <Route path="events" element={<Events navigation={navigation} />} />
+          <Route path="grant" element={<Grants navigation={navigation} />} />
           <Route path="volunteer" element={<Volunteer navigation={navigation} formPage={formPage} setFormPage={setFormPage} />} />
           <Route path="event-sign-up" element={<EventRegistration navigation={navigation} formPage={formPage} setFormPage={setFormPage} />} />
           <Route element={<RequireAuth />}>

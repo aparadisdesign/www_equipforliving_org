@@ -89,10 +89,35 @@ export default function RegistrationDataView({responseData}) {
                                                 {responseData.comment}
                                             </dd>
                                         </div>
+
+                                        <div className=" px-4 py-6 sm:col-span-2 ">
+                                            <dt className="text-sm font-medium leading-6 text-gray-900">How they heard about Equip for Living</dt>
+                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+                                                {responseData.how_heard}
+                                            </dd>
+                                        </div>
+
                                     </div>
                                 </div>
                             )}
                         {/* End Volunteer Data */}
+                            {responseData.how_heard && (
+                                <div>
+                                    <div className="mx-4 py-2 border-b border-gray-100 ">
+                                        <h3 className="text-base font-semibold leading-7 text-purple">How they heard about Equip for Living </h3>
+                                    </div>
+                                    <div className="flex grid-cols-2 gap-4">
+                                        
+                                        <div className=" px-4 py-6 sm:col-span-12 ">
+                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+                                                {responseData.how_heard}
+                                            </dd>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            )}
+                        
                                 
                         {/* Surfer Data */}
                             {responseData.registration_type === 'Surfer' && (
@@ -125,7 +150,25 @@ export default function RegistrationDataView({responseData}) {
                                 </div>
                             )}
                         {/* End Surfer Data */}
+                        {/* Parent Data */} 
+                        {responseData.wetsuit && (
+                                <div>
+                                    <div className="mx-4 py-2 border-b border-gray-100 ">
+                                        <h3 className="text-base font-semibold leading-7 text-purple">Does the participant want to borrow a wetsuit? </h3>
+                                    </div>
+                                    <div className="flex grid-cols-2 gap-4">
+                                        
+                                        <div className=" px-4 py-6 sm:col-span-12 ">
+                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+                                                {responseData.wetsuit}
+                                            </dd>
+                                        </div>
+
+                                    </div>
+                                </div>
+                        )}
                     </div>
+                    
                 </div>
                 <div className="pagebreak"></div>
                 {/* Release Signature Data */}

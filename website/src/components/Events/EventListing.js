@@ -5,6 +5,44 @@ import eventImage3 from '../../images/surfing-event-4.webp'
 import TaraAndAAron from '../../images/tara-aaron.webp'
 
 const posts = [
+  {
+    id: 5,
+    title: 'Water Skiing at Pine Tree Camp',
+    href: 'https://pinetree.campintouch.com/v2/login/login.aspx',
+    description:
+      'Equip For Living is partnering with Pine Tree Camp and leap of faith to bring an adaptive water sports camp to Pine Tree Camp (a completely accessible camp) that includes water skiing. Free of charge.',
+    image: "https://images.squarespace-cdn.com/content/v1/5b7b09bf85ede1e2f55703ab/c79bf948-dba5-4ba4-8c01-fc701e3a795a/PineTreeCamp4.jpg", 
+    alt: 'Female surfer surfing with certified trainers\'s assistance',
+    date: 'September 8th, 2024',
+    datetime: '2024-09-08',
+
+    category: { title: 'Water Sports', href: '#' },
+    address: '114 Pine Tree Camp Rd, Rome, ME 04963',
+    host: {
+      name: 'Equip For Living & Pine Tree Camp',
+      role: 'Event Host',
+      imageUrl: "https://pinetreesociety.org/wp-content/uploads/2023/03/PTC_Left-Aligned_REVISED-2023-2-1-scaled.jpg",
+    },
+  },
+  {
+    id: 4,
+    title: 'Water Skiing at Pine Tree Camp',
+    href: 'https://pinetree.campintouch.com/v2/login/login.aspx',
+    description:
+      'Equip For Living is partnering with Pine Tree Camp and leap of faith to bring an adaptive water sports camp to Pine Tree Camp (a completely accessible camp) that includes water skiing. Free of charge.',
+    image: "https://images.squarespace-cdn.com/content/v1/5b7b09bf85ede1e2f55703ab/c79bf948-dba5-4ba4-8c01-fc701e3a795a/PineTreeCamp4.jpg", 
+    alt: 'Female surfer surfing with certified trainers\'s assistance',
+    date: 'September 7th, 2024',
+    datetime: '2024-09-07',
+
+    category: { title: 'Water Sports', href: '#' },
+    address: '114 Pine Tree Camp Rd, Rome, ME 04963',
+    host: {
+      name: 'Equip For Living & Pine Tree Camp',
+      role: 'Event Host',
+      imageUrl: "https://pinetreesociety.org/wp-content/uploads/2023/03/PTC_Left-Aligned_REVISED-2023-2-1-scaled.jpg",
+    },
+  },
     {
       id: 1,
       title: 'Equip For Surfing',
@@ -34,25 +72,6 @@ const posts = [
         alt: 'Male surfer using adaptive equipment',
         date: 'July 11th, 2024',
         datetime: '2024-11-07',
-        time: '4:30PM - 7:30PM',
-        category: { title: 'Water Sports', href: '#' },
-        address: 'Long Sands Beach, 171-175 Long Beach Ave, York, ME 03909, USA',
-        host: {
-          name: 'Equip For Living',
-          role: 'Event Host',
-          imageUrl: TaraAndAAron,
-        },
-      },
-      {
-        id: 3,
-        title: 'Equip For Surfing',
-        href: '/event-sign-up',
-        description:
-          'Equip For Living will be offering adaptive surfing  at Long Sands Beach, in York Maine. We will have trained instructors, wet suits, surf boards all ready to assist in this FREE Equip for Surfing event!',
-        image: eventImage3,
-        alt: 'Female using adaptive equipment',
-        date: 'June 20th, 2024',
-        datetime: '2024-06-20',
         time: '4:30PM - 7:30PM',
         category: { title: 'Water Sports', href: '#' },
         address: 'Long Sands Beach, 171-175 Long Beach Ave, York, ME 03909, USA',

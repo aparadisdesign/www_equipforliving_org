@@ -97,6 +97,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
             </div>
           </div>
             </div>
+            {errors.attendance_dates && (<p className="text-red-500">{errors.attendance_dates.message}</p>)}
           </fieldset>
           <fieldset className="sm:col-span-3">
               <legend className="text-base font-semibold leading-7 text-gray-900">Registration Type<span className="text-red-500">*</span></legend>
@@ -109,7 +110,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     onClick={()=>{setIsVolunteer(true)}}
                     value="Volunteer"
-                    {...register("registration_type")}
+                    {...register("registration_type", {required: "Please select a registration type"})}
                   />
                   <label htmlFor="volunteer" className="block text-sm font-medium leading-6 text-gray-900">
                     Volunteer
@@ -122,12 +123,13 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     value="Surfer"
                     onClick={()=>{setIsVolunteer(false)}}
-                    {...register("registration_type")}
+                    {...register("registration_type", {required: "Please select a registration type"})}
                   />
                   <label htmlFor="surfer" className="block text-sm font-medium leading-6 text-gray-900">
                     Surfer
                   </label>
                 </div>
+                {errors.registration_type && (<p className="text-red-500">{errors.registration_type.message}</p>)}
               </div>
           </fieldset>
       </div>
@@ -181,7 +183,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
                 <input
                   type="email"
                   id="email"
-                  className="block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 pr-10 ring-1 ring-inset sm:text-sm sm:leading-6"
                   placeholder="example@gmail.com"
                   {...register("email", {required: "This field is required"})}
                 />
@@ -197,7 +199,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
                 <input
                   type="text"
                   id="phone-number"
-                  className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   placeholder="+1 (555) 987-6543"
                   {...register("phone_number", {required: "This field is required"})}
                 />
@@ -235,6 +237,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
                 <input
                   type="text"
                   id="emergency-contact-phone"
+                  placeholder="+1 (555) 987-6543"
                   autoComplete="emergency-contact-phone"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
                   {...register("emergency_contact_phone", {required: "This field is required"})}
@@ -258,13 +261,34 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
             </div>
           </fieldset>
         </div>
+
+        {/* How Heard */}
+        <div className="border-b border-gray-900/10 pb-12">
+          <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-12">
+              <label htmlFor="how_heard" className="block text-sm font-medium leading-6 text-gray-900">
+                How did you hear about Equip For Surfing?
+              </label>
+              <div className="relative mt-2 rounded-md shadow-sm">
+                <input
+                  type="text"
+                  id="how_heard"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red sm:text-sm sm:leading-6"
+          
+                  {...register("how_heard", {required: "This field is required"})}
+                />
+                {errors.how_heard && (<p className="text-red-500">{errors.how_heard.message}</p>)}
+              </div>
+            </div>
+          </fieldset>
+        </div>
         </>
       )}  
 
 
       {formPage === 1 && isVolunteer !== undefined && isVolunteer && (
         // Volunteer Spcific Fields
-        <>
+        <div key="volunteerForm">
           {/* Volunteer Experience */}
           <div className="border-b border-gray-900/10 pb-12">
             <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -300,13 +324,53 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
                     type="radio"
                     id="wherever-needed"
                     autoComplete="wherever-needed"
-                    value="Wherever Needed"
+                    value="Wherever"
                     className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
                     {...register("volunteer_preference")}
                   />
                   {errors.volunteer_preference && (<p className="text-red-500">{errors.volunteer_preference.message}</p>)}
                 <label htmlFor="wherever-needed" className="block text-sm font-medium leading-6 text-gray-900">Wherever Needed</label>
               </div>
+
+            
+              <div className="col-span-full">
+                {/* Do you need a wetsuit? */}
+          <div className="border-b border-gray-900/10 pb-12">
+            <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <legend className="text-base font-semibold leading-7 text-gray-900">Do you need to borrow a wetsuit?<span className="text-red-500">*</span></legend>
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="wetsuit" className="block text-sm font-medium leading-6 text-gray-900">Yes</label>
+                <div className="mt-2">
+                  <input
+                    type="radio"
+                    id="wetsuit"
+                    autoComplete="wetsuit"
+                    value="yes"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("wetsuit", {required: "This field is required"})}
+                  />
+                  {errors.wetsuit && (<p className="text-red-500">{errors.wetsuit.message}</p>)}
+                </div>
+              </div>
+
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="not-wetsuit" className="block text-sm font-medium leading-6 text-gray-900">No</label>
+                <div className="mt-2">
+                  <input
+                    type="radio"
+                    id="not-wetsuit"
+                    autoComplete="wetsuit"
+                    value="no"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("wetsuit", {required: "This field is required"})}
+                  />
+                  {errors.wetsuit && (<p className="text-red-500">{errors.wetsuit.message}</p>)}
+                </div>
+              </div>
+            </fieldset>
+          </div>
+              </div>
+            
 
               {/* Volunteer Experience */}
               <div className="col-span-full">
@@ -325,12 +389,12 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
               </div>
             </fieldset>
           </div>
-        </>
+        </div>
       )}
 
       {formPage === 1 && isVolunteer !== undefined && !isVolunteer && (
         // Surfer Specific Fields
-        <>
+        <div key="surferForm">
           {/* Is this your first time surfing with Equipped For Surfers? */}
           <div className="border-b border-gray-900/10 pb-12">
             <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -362,6 +426,42 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
                     {...register("first_time_surfing", {required: "This field is required"})}
                   />
                   {errors.first_time_surfing && (<p className="text-red-500">{errors.first_time_surfing.message}</p>)}
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          {/* Do you need a wetsuit? */}
+          <div className="border-b border-gray-900/10 pb-12">
+            <fieldset className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <legend className="text-base font-semibold leading-7 text-gray-900">Do you need to borrow a wetsuit?<span className="text-red-500">*</span></legend>
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="wetsuit" className="block text-sm font-medium leading-6 text-gray-900">Yes</label>
+                <div className="mt-2">
+                  <input
+                    type="radio"
+                    id="wetsuit"
+                    autoComplete="wetsuit"
+                    value="yes"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("wetsuit", {required: "This field is required"})}
+                  />
+                  {errors.wetsuit && (<p className="text-red-500">{errors.wetsuit.message}</p>)}
+                </div>
+              </div>
+
+              <div className="mt-10 sm:col-span-3">
+                <label htmlFor="not-wetsuit" className="block text-sm font-medium leading-6 text-gray-900">No</label>
+                <div className="mt-2">
+                  <input
+                    type="radio"
+                    id="not-wetsuit"
+                    autoComplete="wetsuit"
+                    value="no"
+                    className="h-4 w-4 border-gray-300 text-purple focus:ring-red"
+                    {...register("wetsuit", {required: "This field is required"})}
+                  />
+                  {errors.wetsuit && (<p className="text-red-500">{errors.wetsuit.message}</p>)}
                 </div>
               </div>
             </fieldset>
@@ -406,7 +506,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
 
               <div className="col-span-full">
                 <label htmlFor="disability_background" className="block text-sm font-medium leading-5 text-gray-900">
-                  Can you please give us some background about your disability, abilities and limitations so we can pair you with the correct equipment and volunteer.
+                  Can you please give us some background about your disability, abilities, and limitations <br></br> so we can pair you with the correct equipment and volunteer.
                 </label>
                 <p className="mt-1 text-sm leading-6 text-gray-600">Please be as detailed as possible!</p>
                 <div className="mt-2">
@@ -422,7 +522,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
 
             </fieldset>
           </div>
-        </>
+        </div>
       )}
 
       {formPage === 2 && (
@@ -592,11 +692,7 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
 
       {formPage === 1 && (
         <div className="submit mt-6 flex items-center justify-end gap-x-6">
-        <button
-        type="submit"
-        className={isVolunteer === undefined ? disabedButtonClasses : buttonClasses}
-        disabled={isVolunteer === undefined}
-        >
+        <button className="rounded-md bg-purple px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple" type="submit">
           Next 
         </button>
       </div>

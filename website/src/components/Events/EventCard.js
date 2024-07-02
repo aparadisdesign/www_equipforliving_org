@@ -21,19 +21,9 @@
                     </h3>
                     <p className="mt-1 text-sm lead ing-6 text-gray-600">{event.address}</p>
                     <p className="mt-5 text-sm leading-6 text-gray-600">{event.description}</p>
-                    <button className="rounded-md bg-purple mt-5 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple">Register for this event</button>
                 </div>
-                <div className="mt-6 flex border-t border-gray-900/5 pt-6">
-                    <div className="relative flex items-center gap-x-4">
-                        <img src={event.host.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
-                        <div className="text-sm leading-6">
-                            <p className="text-gray-600">{event.host.role}:</p>
-                            <p className="font-semibold text-gray-900">
-                                <span className="absolute inset-0" />
-                                {event.host.name}
-                            </p>
-                        </div>
-                    </div>
+                <div className="mt-2 flex justify-end">
+                    <button className="rounded-md bg-purple mt-5 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple">Register for this event</button>
                 </div>
             </div>
         </a>
