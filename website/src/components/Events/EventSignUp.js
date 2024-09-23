@@ -44,58 +44,24 @@ const disabedButtonClasses = 'rounded-md bg-gray-700 px-3 py-2 text-sm font-semi
             <legend className="text-base font-semibold leading-7 text-gray-900">Choose The Date(s) You Would Like To Attend<span className="text-red-500">*</span></legend> 
             <p className="mt-1 text-sm leading-6 text-gray-600">You may choose multiple dates</p>
             <div className="mt-10 sm:col-span-3">
-          <div className="relative flex gap-x-3">
-            <div className="flex h-6 items-center">
-          <input
-            id="date-1"
-            value="2024-08-08"
-            type="checkbox"
-            className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
-            {...register("attendance_dates", { required: "Please select at least one date" })}
-          />
+            <div className="relative flex gap-x-3">
+              <div className="flex h-6 items-center">
+              <input
+                id="date-1"
+                value="2024-08-08"
+                type="checkbox"
+                checked
+                className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
+                {...register("attendance_dates", { required: "Please select at least one date" })}
+              />
+              </div>
+              <div className="text-sm leading-6">
+            <label htmlFor="date-1" className="font-medium text-gray-900">
+            August 8th, 2024
+            </label>
+            <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
+              </div>
             </div>
-            <div className="text-sm leading-6">
-          <label htmlFor="date-1" className="font-medium text-gray-900">
-          August 8th, 2024
-          </label>
-          <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
-            </div>
-          </div>
-
-          <div className="relative flex gap-x-3">
-            <div className="flex h-6 items-center">
-          <input
-            id="date-2"
-            value="2024-07-11"
-            type="checkbox"
-            className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
-            {...register("attendance_dates", { required: "Please select at least one date" })}
-          />
-            </div>
-            <div className="text-sm leading-6">
-          <label htmlFor="date-1" className="font-medium text-gray-900">
-          July 11th, 2024
-          </label>
-          <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
-            </div>
-          </div>
-          <div className="relative flex gap-x-3">
-            <div className="flex h-6 items-center">
-          <input
-            id="date-3"
-            value="2024-06-20"
-            type="checkbox"
-            className="h-4 w-4 rounded border-gray-300 text-purple focus:ring-red"
-            {...register("attendance_dates", { required: "Please select at least one date" })}
-          />
-            </div>
-            <div className="text-sm leading-6">
-          <label htmlFor="date-3" className="font-medium text-gray-900">
-            June 20th, 2024
-          </label>
-          <p className="text-gray-500">4:30PM - 7:30PM | Long Sands Beach </p>
-            </div>
-          </div>
             </div>
             {errors.attendance_dates && (<p className="text-red-500">{errors.attendance_dates.message}</p>)}
           </fieldset>

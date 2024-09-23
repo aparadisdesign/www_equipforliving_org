@@ -22,9 +22,9 @@
                     <p className="mt-1 text-sm lead ing-6 text-gray-600">{event.address}</p>
                     <p className="mt-5 text-sm leading-6 text-gray-600">{event.description}</p>
                 </div>
-                <div className="mt-2 flex justify-end">
+                {/* <div className="mt-2 flex justify-end">
                     <button className="rounded-md bg-purple mt-5 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple">Register for this event</button>
-                </div>
+                </div> */}
             </div>
         </a>
     )
