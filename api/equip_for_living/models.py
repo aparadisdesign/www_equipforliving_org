@@ -20,6 +20,7 @@ class Registration(models.Model):
     VOLUNTEER_PREFERENCE = [
         ("In Water", "In Water"),
         ("Out of Water", "Out of Water"),
+        ("On Land", "On Land"),
         ("Wherever", "Wherever"),
     ]
     # NEED TO ADDRESS DATETIMES
@@ -41,6 +42,8 @@ class Registration(models.Model):
     release_role = models.CharField(max_length=255, blank=True, null=True)
     signature = models.CharField(max_length=255, blank=True, null=True)
     date = models.DateField(blank=False, null=False)
+    how_heard = models.TextField(blank=True, null=True)
+    wetsuit = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
