@@ -50,3 +50,41 @@ class Registration(models.Model):
 
     class Meta:
         ordering = ["last_name", "first_name"]
+
+class GrantApplication(models.Model):
+
+    APPLICATION_REASON_CHOICES = [
+        ("Medical Equipment", "Medical Equipment"),
+        ("Home Modification", "Home Modification"),
+        ("Vehicle Modification", "Vehicle Modification"),
+        ("Other", "Other"),
+    ]
+
+    first_name = models.CharField(max_length=100, blank=False, null=False)
+    last_name = models.CharField(max_length=100, blank=False, null=False)
+    date_of_birth = models.DateField(blank=False, null=False)
+    phone_number = models.CharField(max_length=19, blank=True, null=True)
+    email = models.EmailField(blank=False, null=False)
+    home_address = models.TextField(blank=False, null=False)
+    home_city = models.CharField(max_length=100, blank=False, null=False)
+    home_state = models.CharField(max_length=2, blank=False, null=False)
+    home_zip = models.CharField(max_length=10, blank=False, null=False)
+    mailing_address = models.TextField(blank=True, null=True)
+    mailing_city = models.CharField(max_length=100, blank=True, null=True)
+    mailing_state = models.CharField(max_length=2, blank=True, null=True)
+    mailing_zip = models.CharField(max_length=10, blank=True, null=True)
+    diagnosis = models.TextField(blank=False, null=False)
+    application_reason = models.CharField(max_length=255, blank=False, null=False, choices=APPLICATION_REASON_CHOICES)
+    vendor_name = models.CharField(max_length=255, blank=True, null=True)
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+    amount_requested = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+    other_funding_sources = models.TextField(blank=True, null=True)
+    other_funding_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    application_letter = models.TextField(blank=False, null=False)
+    mainecare_denial_upload = models.FileField(upload_to="mainecare_denial", blank=True, null=True)
+    vendor_quote_upload = models.FileField(upload_to="vendor_quote", blank=True, null=True)
+    letter_of_recommendation_upload = models.FileField(upload_to="letter_of_recommendation", blank=True, null=True)
+    refuse_to_disclose = models.CharField(max_length=255, blank=False, null=False)
+    signature = models.CharField(max_length=255, blank=False, null=False)
+    date = models.DateField(blank=False, null=False)
+    how_heard = models.TextField(blank=True, null=True)

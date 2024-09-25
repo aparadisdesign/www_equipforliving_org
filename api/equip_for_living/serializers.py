@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.urls import reverse
 
-from .models import Registration, EventDate
+from .models import Registration, EventDate, GrantApplication
 from rest_framework import serializers
 
 
@@ -65,3 +65,10 @@ class EventDateDetailSerializer(serializers.ModelSerializer):
         volunteer_registrations = obj.registration_set.filter(registration_type='Volunteer')
         serializer = RegistrationListSerializer(volunteer_registrations, many=True)
         return serializer.data
+
+
+class GrantApplicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GrantApplication
+        fields = '__all__'

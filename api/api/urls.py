@@ -15,13 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from equip_for_living.views import RegistrationCreateAPIView, RegistrationListAPIView, RegistrationDetailAPIView
+from equip_for_living.views import RegistrationCreateAPIView, RegistrationListAPIView, RegistrationDetailAPIView, GrantCreateAPIView
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('api/', RegistrationCreateAPIView.as_view(), name='hello_world'),
     path('api/list/', RegistrationListAPIView.as_view(), name='registrations'),
     path('api/list/<int:pk>/', RegistrationDetailAPIView.as_view(), name='registration_detail'),
+    path('api/grant/', GrantCreateAPIView.as_view(), name='grant_application'),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]

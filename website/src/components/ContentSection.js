@@ -33,11 +33,17 @@ export default function ContentSection() {
             </ul>
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">About The Application Process</h2>
               <p className="mt-6">
+                Deadline For Applications: November 1st, 2025 - Funding will be awarded by December 1st, 2025.
+              </p>
+
+              <p className="mt-6">
                 An application detailing information about the adult in need of assistance and the reason for the need is required. Funding will be given for items and services that help maximize growth and development, as well as create an environment for the individual to be healthy, independent, and engaged in an active.
               </p>
+
               <p className="mt-6">
                 <b>Online application process will open soon.</b> <span className="text-base font-semibold text-indigo-600">In the meantime, you can apply for a grant by emailing: equipforliving@gmail.com</span>
               </p>
+              
             <div className="mt-10 max-w-xl text-base leading-7 text-gray-700 lg:max-w-none">
               <p className="mb-3">
                 The Equip For Living Foundation is a volunteer-run organization and applications are reviewed annually by a committee. Incomplete applications will not be considered.

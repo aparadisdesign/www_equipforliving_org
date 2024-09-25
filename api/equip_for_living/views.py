@@ -1,7 +1,7 @@
 from datetime import datetime
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
-from .serializers import RegistrationListSerializer, EventDatesSerializer, EventDateDetailSerializer, RegistrationSerializer
-from .models import Registration, EventDate
+from .serializers import RegistrationListSerializer, EventDatesSerializer, EventDateDetailSerializer, RegistrationSerializer, GrantApplicationSerializer
+from .models import Registration, EventDate, GrantApplication
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -56,3 +56,22 @@ class RegistrationDetailAPIView(RetrieveAPIView):
     queryset = Registration.objects.all()
     serializer_class = RegistrationListSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class GrantCreateAPIView(CreateAPIView):
+    queryset = GrantApplication.objects.all()
+    serializer_class = GrantApplicationSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        grant = GrantApplication.objects.create(**serializer.validated_data)
+
+        response_data = {
+            'grant': GrantApplicationSerializer(grant).data,
+            'message': 'Grant application created successfully'
+        }
+
+        return Response(response_data, status=status.HTTP_201_CREATED)
+    
