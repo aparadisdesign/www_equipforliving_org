@@ -53,13 +53,6 @@ class Registration(models.Model):
 
 class GrantApplication(models.Model):
 
-    APPLICATION_REASON_CHOICES = [
-        ("Medical Equipment", "Medical Equipment"),
-        ("Home Modification", "Home Modification"),
-        ("Vehicle Modification", "Vehicle Modification"),
-        ("Other", "Other"),
-    ]
-
     first_name = models.CharField(max_length=100, blank=False, null=False)
     last_name = models.CharField(max_length=100, blank=False, null=False)
     date_of_birth = models.DateField(blank=False, null=False)
@@ -74,7 +67,7 @@ class GrantApplication(models.Model):
     mailing_state = models.CharField(max_length=2, blank=True, null=True)
     mailing_zip = models.CharField(max_length=10, blank=True, null=True)
     diagnosis = models.TextField(blank=False, null=False)
-    application_reason = models.CharField(max_length=255, blank=False, null=False, choices=APPLICATION_REASON_CHOICES)
+    application_reason = models.CharField(max_length=255, blank=False, null=False)
     vendor_name = models.CharField(max_length=255, blank=True, null=True)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     amount_requested = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)

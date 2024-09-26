@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Programs from "./pages/Programs";
 import Events from "./pages/Events";
 import Grants from "./pages/Grants";
+import GrantApplication from "./pages/GrantApplication";
 import Volunteer from "./pages/Volunteer";
 import EventRegistration from "./pages/EventRegistration";
 import RegistrationDashboard from "./pages/RegistrationDashboard";
@@ -35,6 +36,7 @@ function App() {
           <Route index element={<Home navigation={navigation} />} />
           <Route path="events" element={<Events navigation={navigation} />} />
           <Route path="grant" element={<Grants navigation={navigation} />} />
+          <Route path="grant-application" element={<GrantApplication navigation={navigation} />} />
           <Route path="volunteer" element={<Volunteer navigation={navigation} formPage={formPage} setFormPage={setFormPage} />} />
           <Route path="event-sign-up" element={<EventRegistration navigation={navigation} formPage={formPage} setFormPage={setFormPage} />} />
           <Route element={<RequireAuth />}>
