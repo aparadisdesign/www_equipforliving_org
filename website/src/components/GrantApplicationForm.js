@@ -5,25 +5,55 @@ import axios from '../api/axios';
 
 export default function GrantApplicationForm() {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    
+    // Append non-file fields
+    Object.keys(data).forEach((key) => {
+      // Check if the field is an array (since file fields are returned as arrays)
+      if (Array.isArray(data[key])) {
+        // If it's a file input, append only the file (data[key][0])
+        formData.append(key, data[key][0]);
+      } else {
+        formData.append(key, data[key]);
+      }
+    });
+  
+    // If using files, handle each separately if necessary
+    if (data.mainecare_denial_upload && data.mainecare_denial_upload[0]) {
+      formData.append("mainecare_denial_upload", data.mainecare_denial_upload[0]);
+    }
+    
+    if (data.vendor_quote_upload && data.vendor_quote_upload[0]) {
+      formData.append("vendor_quote_upload", data.vendor_quote_upload[0]);
+    }
+    
+    if (data.letter_of_recommendation_upload && data.letter_of_recommendation_upload[0]) {
+      formData.append("letter_of_recommendation_upload", data.letter_of_recommendation_upload[0]);
+    }
+  
+    try {
+      const response = await axios.post('/api/grant/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Form data sent successfully:', response.data);
+    } catch (error) {
+      console.error('Error sending form data:', error);
+    }
+  };
+  
+  // Custom handler for file inputs
+const handleFileChange = (e) => {
+  const { name, files } = e.target;
+  setValue(name, files); // Update the form's state with selected file(s)
+};
 
   return (
-    <form className="space-y-8 mx-auto max-w-7xl px-6 lg:px-8 py-6" onSubmit={handleSubmit(async (data) => {
-      
-        // Assuming data contains your form data
-        axios.post('/api/grant/', data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => {
-          console.log('Form data sent:', response);
-        })
-        .catch(error => {
-          console.error('Error sending form data:', error);
-        });
-      
-      })}>
+    <form className="space-y-8 mx-auto max-w-7xl px-6 lg:px-8 py-6" onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6 border-b pb-8">
         <h2 className="text-xl font-semibold text-gray-900">Equip For Funding Grant Application</h2>
         <p className="text-sm text-gray-700">
@@ -398,7 +428,8 @@ export default function GrantApplicationForm() {
                   className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                 >
                   <span>Upload a file</span>
-                  <input id="mainecare_denial_upload" name="mainecare_denial_upload" type="file" className="sr-only" />
+                  <input id="mainecare_denial_upload" name="mainecare_denial_upload" type="file" className="sr-only" {...register("mainecare_denial_upload")}
+            onChange={handleFileChange} />
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>
@@ -442,7 +473,7 @@ export default function GrantApplicationForm() {
                   className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                 >
                   <span>Upload a file</span>
-                  <input id="letter_of_recommendation_upload" name="letter_of_recommendation_upload" type="file" className="sr-only" />
+                  <input id="letter_of_recommendation_upload" name="letter_of_recommendation_upload" type="file" className="sr-only" {...register("letter_of_recommendation_upload")} onChange={handleFileChange}  />
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>

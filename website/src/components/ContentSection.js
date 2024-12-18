@@ -1,4 +1,3 @@
-import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 import contentImage from '../images/equipment-grant.webp'
 export default function ContentSection() {
   return (
@@ -33,7 +32,7 @@ export default function ContentSection() {
             </ul>
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">About The Application Process</h2>
               <p className="mt-6">
-                Deadline For Applications: November 1st, 2025 - Funding will be awarded by December 1st, 2025.
+                Deadline For Applications: November 22nd, 2025 - Funding will be awarded by December 1st, 2025.
               </p>
 
               <p className="mt-6">
