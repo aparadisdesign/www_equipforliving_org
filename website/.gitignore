@@ -26,3 +26,9 @@ public/output.css
 website/output.css
 
 .idea/
+
+api/letter_of_recommendation/
+api/mainecare_denial/
+api/vendor_quote/
+
+api/mydatabase

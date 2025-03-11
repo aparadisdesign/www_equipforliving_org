@@ -1,56 +1,38 @@
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import { useForm } from 'react-hook-form'
 import axios from '../api/axios';
-
+import DragDropFileUploader from './DragDropFileUploader';
 
 export default function GrantApplicationForm() {
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    
-    // Append non-file fields
-    Object.keys(data).forEach((key) => {
-      // Check if the field is an array (since file fields are returned as arrays)
-      if (Array.isArray(data[key])) {
-        // If it's a file input, append only the file (data[key][0])
-        formData.append(key, data[key][0]);
-      } else {
-        formData.append(key, data[key]);
+
+    // Append all fields to FormData
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value) && value.length > 0) {
+        formData.append(key, value[0]);
+      } else if (!Array.isArray(value)) {
+        formData.append(key, value);
       }
     });
-  
-    // If using files, handle each separately if necessary
-    if (data.mainecare_denial_upload && data.mainecare_denial_upload[0]) {
-      formData.append("mainecare_denial_upload", data.mainecare_denial_upload[0]);
-    }
-    
-    if (data.vendor_quote_upload && data.vendor_quote_upload[0]) {
-      formData.append("vendor_quote_upload", data.vendor_quote_upload[0]);
-    }
-    
-    if (data.letter_of_recommendation_upload && data.letter_of_recommendation_upload[0]) {
-      formData.append("letter_of_recommendation_upload", data.letter_of_recommendation_upload[0]);
-    }
-  
+
     try {
-      const response = await axios.post('/api/grant/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await axios.post("/api/grant/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('Form data sent successfully:', response.data);
+      console.log("Form data sent successfully:", response.data);
+      alert("Grant application submitted successfully!"); // Success alert
+      reset();
+      window.location.reload();
     } catch (error) {
-      console.error('Error sending form data:', error);
+      console.error("Error sending form data:", error);
+      alert("Failed to submit the application. Please try again."); // Error alert
     }
   };
   
-  // Custom handler for file inputs
-const handleFileChange = (e) => {
-  const { name, files } = e.target;
-  setValue(name, files); // Update the form's state with selected file(s)
-};
 
   return (
     <form className="space-y-8 mx-auto max-w-7xl px-6 lg:px-8 py-6" onSubmit={handleSubmit(onSubmit)}>
@@ -419,67 +401,47 @@ const handleFileChange = (e) => {
           <label htmlFor="mainecare_denial_upload" className="block text-sm font-medium leading-6 text-gray-900">
             MaineCare Denial Letter
           </label>
-          <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-            <div className="text-center">
-              <PhotoIcon aria-hidden="true" className="mx-auto h-12 w-12 text-gray-300" />
-              <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                <label
-                  htmlFor="mainecare_denial_upload"
-                  className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                >
-                  <span>Upload a file</span>
-                  <input id="mainecare_denial_upload" name="mainecare_denial_upload" type="file" className="sr-only" {...register("mainecare_denial_upload")}
-            onChange={handleFileChange} />
-                </label>
-                <p className="pl-1">or drag and drop</p>
-              </div>
-              <p className="text-xs leading-5 text-gray-600">PDF, Docx, Word</p>
-            </div>
-          </div>
+
+          <DragDropFileUploader
+            inputName="mainecare_denial_upload"
+            acceptedTypes="documents"
+            maxSizeMB={10}
+            onFilesSelected={(name, files) => setValue(name, files)}
+            register={register}
+            errors={errors}
+            validation={{ required: "MaineCare denial letter is required" }}
+          />
+
         </div>
 
         <div className="col-span-full">
           <label htmlFor="vendor_quote_upload" className="block text-sm font-medium leading-6 text-gray-900">
             Vendor Quote Upload
           </label>
-          <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-            <div className="text-center">
-              <PhotoIcon aria-hidden="true" className="mx-auto h-12 w-12 text-gray-300" />
-              <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                <label
-                  htmlFor="vendor_quote_upload"
-                  className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                >
-                  <span>Upload a file</span>
-                  <input id="vendor_quote_upload" name="vendor_quote_upload" type="file" className="sr-only" />
-                </label>
-                <p className="pl-1">or drag and drop</p>
-              </div>
-              <p className="text-xs leading-5 text-gray-600">PDF, Docx, Word</p>
-            </div>
-          </div>
+          <DragDropFileUploader
+            inputName="vendor_quote_upload"
+            acceptedTypes="documents"
+            maxSizeMB={10}
+            onFilesSelected={(name, files) => setValue(name, files)}
+            register={register}
+            errors={errors}
+            validation={{ required: "Vendor quote is required" }}
+          />
         </div>
 
         <div className="col-span-full">
           <label htmlFor="letter_of_recommendation_upload" className="block text-sm font-medium leading-6 text-gray-900">
             Letter of Recommendation Upload
           </label>
-          <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-            <div className="text-center">
-              <PhotoIcon aria-hidden="true" className="mx-auto h-12 w-12 text-gray-300" />
-              <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                <label
-                  htmlFor="letter_of_recommendation_upload"
-                  className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                >
-                  <span>Upload a file</span>
-                  <input id="letter_of_recommendation_upload" name="letter_of_recommendation_upload" type="file" className="sr-only" {...register("letter_of_recommendation_upload")} onChange={handleFileChange}  />
-                </label>
-                <p className="pl-1">or drag and drop</p>
-              </div>
-              <p className="text-xs leading-5 text-gray-600">PDF, Docx, Word</p>
-            </div>
-          </div>
+          <DragDropFileUploader
+            inputName="letter_of_recommendation_upload"
+            acceptedTypes="documents"
+            maxSizeMB={10}
+            onFilesSelected={(name, files) => setValue(name, files)}
+            register={register}
+            errors={errors}
+            validation={{ required: "Letter of recommendation is required" }}
+          />
         </div>
 
         <div className="col-span-full">
@@ -578,5 +540,4 @@ const handleFileChange = (e) => {
     </form>
   )
 }
-
 
